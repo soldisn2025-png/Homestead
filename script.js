@@ -1,4 +1,15 @@
-const CONTACT_CONFIG = {
+const ADMIN_OVERRIDE_KEY = "homestead_admin_overrides";
+const FALLBACK_HERO_IMAGE =
+  "https://images.unsplash.com/photo-1538485399081-7c8976de83cc?auto=format&fit=crop&w=1800&q=80";
+const FALLBACK_ROOM_IMAGE =
+  "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80";
+
+const DEFAULT_BRANDING = {
+  ko: "홈스테이드 서울",
+  en: "Homestead Seoul",
+};
+
+const DEFAULT_CONTACT_CONFIG = {
   phone: "+82-10-0000-0000",
   email: "you@example.com",
   kakaoUrl: "https://open.kakao.com/o/replace-me",
@@ -7,21 +18,34 @@ const CONTACT_CONFIG = {
     "https://www.google.com/maps?q=%EC%84%9C%EC%9A%B8%20%EB%B0%A9%EB%B0%B0%EB%8F%99%20911-14&output=embed",
 };
 
-const translations = {
+const DEFAULT_MEDIA = {
+  heroImage: FALLBACK_HERO_IMAGE,
+  gallery: [
+    { src: "images/Room_main.png", captionKey: "captionRoomMain", altKo: "객실", altEn: "Room" },
+    { src: "images/Hallway_modern.png", captionKey: "captionHallwayModern", altKo: "복도", altEn: "Hallway" },
+    { src: "images/building_outlook.png", captionKey: "captionExterior", altKo: "외관", altEn: "Exterior" },
+    { src: "images/Corridor.png", captionKey: "captionCorridor", altKo: "복도", altEn: "Corridor" },
+    { src: "images/lobby.png", captionKey: "captionLobby", altKo: "로비", altEn: "Lobby" },
+    { src: "images/Room_1.png", captionKey: "captionRoom1", altKo: "객실 1", altEn: "Room 1" },
+    { src: "images/Room_2.png", captionKey: "captionRoom2", altKo: "객실 2", altEn: "Room 2" },
+    { src: "images/Room3.png", captionKey: "captionRoom3", altKo: "객실 3", altEn: "Room 3" },
+    { src: "images/Room_4.png", captionKey: "captionRoom4", altKo: "객실 4", altEn: "Room 4" },
+  ],
+};
+
+const BASE_TRANSLATIONS = {
   ko: {
     navAbout: "소개",
     navRooms: "객실",
     navLocation: "위치",
     navInquiry: "예약문의",
     heroKicker: "Warm Seoul Wanderer Stay",
-    heroTitle: "서울 방배동, 나만의 편안한 공간",
-    heroSubtitle:
-      "방배역 인접 고시원형 숙소. 출퇴근과 서울 여행을 동시에 편리하게 만드는 실용적인 스테이.",
-    heroAddress: "서울특별시 서초구 방배동 911-14",
+    heroTitle: "서울 중심부, 나만의 평안한 공간",
+    heroSubtitle: "출퇴근과 서울 여행을 모두 편하게 만드는 실속형 스테이.",
     heroCtaInquiry: "지금 문의하기",
     heroCtaGallery: "객실 보기",
     aboutEyebrow: "Why Stay Here",
-    aboutTitle: "교통과 생활, 둘 다 좋은 방배 스테이",
+    aboutTitle: "교통과 생활, 둘 다 좋은 홈스테이드 서울",
     feature1Title: "방배동 초역세권 위치",
     feature1Desc: "2호선 방배역 인접. 강남권 출퇴근 및 서울 주요 지역 이동이 편리합니다.",
     feature2Title: "전용 욕실 포함",
@@ -32,14 +56,17 @@ const translations = {
     feature4Desc: "영어 문의 대응 가능. 예산형 서울 숙소를 찾는 해외 방문객에게 적합합니다.",
     galleryEyebrow: "Photo Gallery",
     galleryTitle: "실제 공간 미리 보기",
+    captionRoomMain: "객실",
+    captionHallwayModern: "복도",
+    captionExterior: "외관",
     captionCorridor: "복도",
     captionLobby: "로비",
     captionRoom1: "객실 1",
     captionRoom2: "객실 2",
     captionRoom3: "객실 3",
     captionRoom4: "객실 4",
-    pricingEyebrow: "Pricing Guide",
-    pricingTitle: "가격 안내 (v1 수동 시즌 요금)",
+    pricingEyebrow: "Pricing",
+    pricingTitle: "가격 안내",
     pricingNightlyTitle: "단기 숙박",
     pricingNightlyMain: "₩45,000 / 1박부터",
     pricingNightlyRange: "평일 보통 ₩45,000~₩60,000, 주말/성수기 변동 가능",
@@ -48,9 +75,7 @@ const translations = {
     pricingMonthlyRange: "객실 타입 및 계약 기간에 따라 상이",
     pricingIncludeTitle: "포함/별도",
     pricingIncludeBody: "기본 인터넷/공용관리 포함. 상세 조건은 문의 시 정확히 안내합니다.",
-    pricingUpdate: "마지막 업데이트: 2026-03-12",
-    pricingNote:
-      "정확한 금액은 입실일/체류기간 기준으로 빠르게 견적드립니다. No hidden pricing policy.",
+    pricingNote: "정확한 금액은 입실일/체류기간 기준으로 빠르게 견적드립니다.",
     locationEyebrow: "Location Advantage",
     locationTitle: "출퇴근과 관광 모두 유리한 입지",
     locPoint1: "방배역 도보 약 1~2분",
@@ -87,32 +112,33 @@ const translations = {
     navLocation: "Location",
     navInquiry: "Inquiry",
     heroKicker: "Warm Seoul Wanderer Stay",
-    heroTitle: "Your Cozy Base in the Heart of Seoul",
-    heroSubtitle:
-      "A practical budget guesthouse near Bangbae Station, ideal for both city commuting and Seoul sightseeing.",
-    heroAddress: "911-14 Bangbae-dong, Seocho-gu, Seoul",
+    heroTitle: "A Peaceful Space in Central Seoul",
+    heroSubtitle: "Practical stay for both daily commuting and city sightseeing.",
     heroCtaInquiry: "Send Inquiry",
     heroCtaGallery: "View Rooms",
     aboutEyebrow: "Why Stay Here",
-    aboutTitle: "Strong Transit Location with Everyday Comfort",
+    aboutTitle: "Transit-Friendly and Comfortable Homestead Seoul",
     feature1Title: "Near Bangbae Station",
-    feature1Desc: "Quick access to Seoul Metro Line 2 for commuting and central city routes.",
+    feature1Desc: "Quick access to Seoul Metro Line 2 for commuting and city routes.",
     feature2Title: "Private Bathroom Included",
     feature2Desc: "Private-focused layout with in-room bathroom convenience for daily comfort.",
     feature3Title: "AC + Laundry Ready",
-    feature3Desc: "Essential in-room and building facilities for both short and monthly stays.",
+    feature3Desc: "Essential facilities for both short stays and monthly stays.",
     feature4Title: "Foreigner Friendly",
-    feature4Desc: "English-friendly inquiries supported for budget travelers and long-stay visitors.",
+    feature4Desc: "English-friendly inquiry support for budget travelers and long-stay visitors.",
     galleryEyebrow: "Photo Gallery",
     galleryTitle: "Look Inside the Property",
+    captionRoomMain: "Room",
+    captionHallwayModern: "Hallway",
+    captionExterior: "Exterior",
     captionCorridor: "Corridor",
     captionLobby: "Lobby",
     captionRoom1: "Room 1",
     captionRoom2: "Room 2",
     captionRoom3: "Room 3",
     captionRoom4: "Room 4",
-    pricingEyebrow: "Pricing Guide",
-    pricingTitle: "Pricing Snapshot (Manual Seasonal Rates)",
+    pricingEyebrow: "Pricing",
+    pricingTitle: "Pricing Guide",
     pricingNightlyTitle: "Short Stay",
     pricingNightlyMain: "From KRW 45,000 / night",
     pricingNightlyRange: "Typical weekday KRW 45,000-60,000, weekend/peak season varies",
@@ -120,10 +146,8 @@ const translations = {
     pricingMonthlyMain: "From KRW 650,000 / month",
     pricingMonthlyRange: "Final rate depends on room type and contract length",
     pricingIncludeTitle: "Included / Extra",
-    pricingIncludeBody: "Basic internet and common management are included. Final terms are confirmed by inquiry.",
-    pricingUpdate: "Last updated: 2026-03-12",
-    pricingNote:
-      "You always see numeric price ranges here first, then get an exact quote quickly for your dates.",
+    pricingIncludeBody: "Basic internet and common management are included. Final terms are shared on inquiry.",
+    pricingNote: "You see numeric ranges first, then receive an exact quote quickly for your dates.",
     locationEyebrow: "Location Advantage",
     locationTitle: "Good for Both Commute and Sightseeing",
     locPoint1: "About 1-2 minutes walk to Bangbae Station",
@@ -156,18 +180,109 @@ const translations = {
   },
 };
 
+const branding = { ...DEFAULT_BRANDING };
+const contactConfig = { ...DEFAULT_CONTACT_CONFIG };
+const mediaConfig = JSON.parse(JSON.stringify(DEFAULT_MEDIA));
+const translations = JSON.parse(JSON.stringify(BASE_TRANSLATIONS));
 let currentLang = localStorage.getItem("preferred_lang") || "ko";
+let lightbox = null;
+
+function mergeFlatStrings(target, source) {
+  if (!source || typeof source !== "object") return;
+  Object.entries(source).forEach(([key, value]) => {
+    if (typeof value === "string") target[key] = value;
+  });
+}
+
+function loadAdminOverrides() {
+  let raw;
+  try {
+    raw = localStorage.getItem(ADMIN_OVERRIDE_KEY);
+    if (!raw) return;
+    const overrides = JSON.parse(raw);
+    mergeFlatStrings(branding, overrides.branding);
+    mergeFlatStrings(contactConfig, overrides.contact);
+    if (overrides.media && typeof overrides.media === "object") {
+      if (typeof overrides.media.heroImage === "string") mediaConfig.heroImage = overrides.media.heroImage;
+      if (Array.isArray(overrides.media.gallery)) {
+        overrides.media.gallery.forEach((item, i) => {
+          if (!mediaConfig.gallery[i]) return;
+          if (item && typeof item.src === "string") mediaConfig.gallery[i].src = item.src;
+          if (item && typeof item.altKo === "string") mediaConfig.gallery[i].altKo = item.altKo;
+          if (item && typeof item.altEn === "string") mediaConfig.gallery[i].altEn = item.altEn;
+        });
+      }
+    }
+    if (overrides.translations && typeof overrides.translations === "object") {
+      ["ko", "en"].forEach((lang) => {
+        if (overrides.translations[lang]) {
+          mergeFlatStrings(translations[lang], overrides.translations[lang]);
+        }
+      });
+    }
+  } catch (_) {
+    // Ignore malformed override payload and fall back to defaults.
+  }
+}
 
 function t(key) {
-  return translations[currentLang][key] || "";
+  return translations[currentLang]?.[key] || "";
+}
+
+function setImageSource(img, source, fallback, anchor) {
+  if (!img) return;
+  img.dataset.fallbackApplied = "0";
+  img.onerror = () => {
+    if (img.dataset.fallbackApplied === "1") return;
+    img.dataset.fallbackApplied = "1";
+    img.src = fallback;
+    if (anchor) anchor.href = fallback;
+  };
+  img.src = source || fallback;
+  if (anchor) anchor.href = source || fallback;
+}
+
+function applyBranding() {
+  const brandKo = document.getElementById("brandKo");
+  const brandEn = document.getElementById("brandEn");
+  const footerBrand = document.getElementById("footerBrand");
+  if (brandKo) brandKo.textContent = branding.ko;
+  if (brandEn) brandEn.textContent = branding.en.toUpperCase();
+  if (footerBrand) footerBrand.textContent = branding.en;
+}
+
+function applyMedia() {
+  const hero = document.getElementById("heroImage");
+  if (hero) {
+    setImageSource(hero, mediaConfig.heroImage, FALLBACK_HERO_IMAGE);
+    hero.alt = currentLang === "ko" ? "서울 풍경" : "Seoul city view";
+  }
+
+  mediaConfig.gallery.forEach((item, index) => {
+    const anchor = document.getElementById(`galleryItem${index}`);
+    const image = document.getElementById(`galleryImg${index}`);
+    if (!anchor || !image) return;
+    setImageSource(image, item.src, FALLBACK_ROOM_IMAGE, anchor);
+    const alt = currentLang === "ko" ? item.altKo : item.altEn;
+    image.alt = alt;
+    anchor.setAttribute("data-title", t(item.captionKey) || alt);
+  });
 }
 
 function applyTranslations() {
   document.documentElement.lang = currentLang;
   document.title =
     currentLang === "ko"
-      ? "홈스테이드 방배 | 서울 방배동 고시원"
-      : "Homestade Bangbae | Seoul Budget Accommodation";
+      ? `${branding.ko} | Seoul Budget Accommodation`
+      : `${branding.en} | Seoul Budget Accommodation`;
+
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) {
+    ogTitle.setAttribute(
+      "content",
+      currentLang === "ko" ? `${branding.ko} | ${branding.en}` : `${branding.en} | ${branding.ko}`
+    );
+  }
 
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     const key = node.dataset.i18n;
@@ -185,6 +300,9 @@ function applyTranslations() {
 
   const langInput = document.getElementById("formLanguage");
   if (langInput) langInput.value = currentLang;
+
+  applyBranding();
+  applyMedia();
 }
 
 function setLanguage(lang) {
@@ -192,6 +310,7 @@ function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem("preferred_lang", lang);
   applyTranslations();
+  initGallery();
 }
 
 function bindLanguageButtons() {
@@ -254,9 +373,9 @@ function bindReveal() {
 }
 
 function initGallery() {
-  if (typeof GLightbox === "function") {
-    GLightbox({ selector: ".glightbox", touchNavigation: true, loop: true });
-  }
+  if (typeof GLightbox !== "function") return;
+  if (lightbox) lightbox.destroy();
+  lightbox = GLightbox({ selector: ".glightbox", touchNavigation: true, loop: true });
 }
 
 function normalizePhoneToDigits(phone) {
@@ -264,9 +383,9 @@ function normalizePhoneToDigits(phone) {
 }
 
 function applyContactLinks() {
-  const smsBody = encodeURIComponent("안녕하세요, 방배동 고시원 문의드립니다.");
+  const smsBody = encodeURIComponent("안녕하세요, 홈스테이드 서울 문의드립니다.");
   const waBody = encodeURIComponent("Hello, I'm interested in your room.");
-  const cleanPhone = normalizePhoneToDigits(CONTACT_CONFIG.phone);
+  const cleanPhone = normalizePhoneToDigits(contactConfig.phone);
 
   const emailBtn = document.getElementById("btnEmail");
   const smsBtn = document.getElementById("btnSms");
@@ -274,20 +393,20 @@ function applyContactLinks() {
   const waBtn = document.getElementById("btnWhatsapp");
   const phoneBtn = document.getElementById("btnPhone");
 
-  if (emailBtn) emailBtn.href = `mailto:${CONTACT_CONFIG.email}`;
+  if (emailBtn) emailBtn.href = `mailto:${contactConfig.email}`;
   if (smsBtn) smsBtn.href = `sms:${cleanPhone}?body=${smsBody}`;
-  if (kakaoBtn) kakaoBtn.href = CONTACT_CONFIG.kakaoUrl;
-  if (waBtn) waBtn.href = `https://wa.me/${CONTACT_CONFIG.whatsappNumber}?text=${waBody}`;
+  if (kakaoBtn) kakaoBtn.href = contactConfig.kakaoUrl;
+  if (waBtn) waBtn.href = `https://wa.me/${contactConfig.whatsappNumber}?text=${waBody}`;
   if (phoneBtn) phoneBtn.href = `tel:${cleanPhone}`;
 
   const mapFrame = document.querySelector(".location-wrap iframe");
-  if (mapFrame && CONTACT_CONFIG.mapEmbed) mapFrame.src = CONTACT_CONFIG.mapEmbed;
+  if (mapFrame && contactConfig.mapEmbed) mapFrame.src = contactConfig.mapEmbed;
 
   const textNodes = {
-    emailDisplay: CONTACT_CONFIG.email,
-    smsDisplay: CONTACT_CONFIG.phone,
-    phoneDisplay: CONTACT_CONFIG.phone,
-    whatsappDisplay: `+${CONTACT_CONFIG.whatsappNumber}`,
+    emailDisplay: contactConfig.email,
+    smsDisplay: contactConfig.phone,
+    phoneDisplay: contactConfig.phone,
+    whatsappDisplay: `+${contactConfig.whatsappNumber}`,
   };
 
   Object.entries(textNodes).forEach(([id, value]) => {
@@ -306,7 +425,7 @@ function setStatus(message, type = "") {
 
 function buildMailtoFallback(payload) {
   const subject = encodeURIComponent(
-    payload.language === "ko" ? "[홈스테이드 방배] 문의" : "[Homestade Bangbae] Inquiry"
+    payload.language === "ko" ? `[${branding.ko}] 문의` : `[${branding.en}] Inquiry`
   );
   const body = encodeURIComponent(
     [
@@ -317,7 +436,7 @@ function buildMailtoFallback(payload) {
       payload.message,
     ].join("\n")
   );
-  return `mailto:${CONTACT_CONFIG.email}?subject=${subject}&body=${body}`;
+  return `mailto:${contactConfig.email}?subject=${subject}&body=${body}`;
 }
 
 async function handleInquirySubmit(event) {
@@ -350,9 +469,7 @@ async function handleInquirySubmit(event) {
       form.reset();
       const tokenNode = document.getElementById("turnstileToken");
       if (tokenNode) tokenNode.value = "";
-      if (window.turnstile) {
-        window.turnstile.reset();
-      }
+      if (window.turnstile) window.turnstile.reset();
       setStatus(t("formSuccess"), "success");
       return;
     }
@@ -380,14 +497,15 @@ window.onTurnstileSuccess = function onTurnstileSuccess(token) {
 };
 
 function init() {
+  loadAdminOverrides();
   bindLanguageButtons();
   bindMobileDrawer();
   bindReveal();
+  applyTranslations();
   initGallery();
   applyContactLinks();
   bindInquiryForm();
   bindYear();
-  applyTranslations();
 }
 
 init();

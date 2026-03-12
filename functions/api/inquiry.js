@@ -60,7 +60,7 @@ function formatEmailHtml(payload, request) {
   const country = request.headers.get("CF-IPCountry") || "unknown";
   const ua = request.headers.get("User-Agent") || "unknown";
   return `
-  <h2>New Inquiry - Homestade Bangbae</h2>
+  <h2>New Inquiry - Homestead Seoul</h2>
   <p><strong>Name:</strong> ${payload.name}</p>
   <p><strong>Contact:</strong> ${payload.contact}</p>
   <p><strong>Language:</strong> ${payload.language}</p>
@@ -83,8 +83,8 @@ async function sendEmail(payload, request, env) {
       to: [env.EMAIL_TO],
       subject:
         payload.language === "ko"
-          ? `[홈스테이드 방배] 신규 문의 - ${payload.name}`
-          : `[Homestade Bangbae] New inquiry - ${payload.name}`,
+          ? `[홈스테이드 서울] 신규 문의 - ${payload.name}`
+          : `[Homestead Seoul] New inquiry - ${payload.name}`,
       html: formatEmailHtml(payload, request),
       reply_to: payload.contact.includes("@") ? payload.contact : undefined,
     }),
@@ -117,8 +117,8 @@ async function sendSms(payload, env) {
 
   const smsText =
     payload.language === "ko"
-      ? `[홈스테이드] 신규 문의 ${payload.name}\n연락처: ${payload.contact}`
-      : `[Homestade] New inquiry ${payload.name}\nContact: ${payload.contact}`;
+      ? `[홈스테이드 서울] 신규 문의 ${payload.name}\n연락처: ${payload.contact}`
+      : `[Homestead Seoul] New inquiry ${payload.name}\nContact: ${payload.contact}`;
 
   const response = await fetch("https://api.solapi.com/messages/v4/send", {
     method: "POST",

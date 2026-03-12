@@ -1,4 +1,4 @@
-# Homestade Bangbae Website
+# Homestead Seoul Website
 
 Single-page bilingual (KO/EN) marketing website with Cloudflare Pages Functions inquiry API.
 
@@ -7,9 +7,12 @@ Single-page bilingual (KO/EN) marketing website with Cloudflare Pages Functions 
 - `styles.css` - mobile-first design system and animations
 - `script.js` - i18n, drawer nav, gallery, contact links, inquiry submit
 - `functions/api/inquiry.js` - Turnstile + Resend + Solapi backend endpoint
+- `admin.html` - local admin menu for easy text/photo/contact edits
 
 ## Required image files
 Put these in `images/`:
+- `Room_main.png`
+- `Hallway_modern.png`
 - `building_outlook.png`
 - `Corridor.png`
 - `lobby.png`
@@ -19,12 +22,15 @@ Put these in `images/`:
 - `Room_4.png`
 
 ## Update contact values
-Edit `CONTACT_CONFIG` in `script.js`:
-- `phone`
-- `email`
-- `kakaoUrl`
-- `whatsappNumber`
-- `mapEmbed`
+Edit from `admin.html` (recommended) or directly in `script.js`:
+- branding (KO/EN)
+- hero text and image
+- gallery image paths
+- pricing text
+- contact values (`phone`, `email`, `kakaoUrl`, `whatsappNumber`, `mapEmbed`)
+
+Admin menu stores values in browser `localStorage` key:
+- `homestead_admin_overrides`
 
 ## Cloudflare Pages setup
 1. Deploy this folder as a Cloudflare Pages project.

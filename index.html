@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>홈스테이드 방배 | 서울 방배동 고시원</title>
+  <title>홈스테이드 서울 | Seoul Budget Accommodation</title>
   <meta name="description" content="서울 방배동 고시원 | 저렴하고 깨끗한 단기·월세 숙소 | Seoul budget accommodation">
-  <meta property="og:title" content="홈스테이드 방배 | Bangbae Budget Stay">
+  <meta property="og:title" content="홈스테이드 서울 | Homestead Seoul">
   <meta property="og:description" content="방배역 인접, 단기/월세 숙소. Commuting and sightseeing friendly Seoul stay.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ko_KR">
@@ -21,8 +21,8 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="#top" class="brand" aria-label="홈으로 이동">
-        <span class="brand-kr">홈스테이드 방배</span>
-        <span class="brand-en">HOMESTADE BANGBAE</span>
+        <span class="brand-kr" id="brandKo">홈스테이드 서울</span>
+        <span class="brand-en" id="brandEn">HOMESTEAD SEOUL</span>
       </a>
 
       <nav class="desktop-nav" aria-label="Main navigation">
@@ -33,6 +33,7 @@
       </nav>
 
       <div class="header-actions">
+        <a href="admin.html" class="admin-link" aria-label="Admin">Admin</a>
         <div class="lang-switch" role="group" aria-label="Language switcher">
           <button type="button" data-lang-btn="ko">KO</button>
           <button type="button" data-lang-btn="en">EN</button>
@@ -55,13 +56,12 @@
 
   <main id="top">
     <section class="hero reveal">
-      <img src="images/building_outlook.png" alt="홈스테이드 방배 외관" class="hero-image">
+      <img id="heroImage" src="https://images.unsplash.com/photo-1538485399081-7c8976de83cc?auto=format&fit=crop&w=1800&q=80" alt="Seoul city view" class="hero-image">
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <p class="hero-kicker" data-i18n="heroKicker"></p>
         <h1 data-i18n="heroTitle"></h1>
         <p class="hero-subtitle" data-i18n="heroSubtitle"></p>
-        <p class="hero-address" data-i18n="heroAddress"></p>
         <div class="hero-cta">
           <a href="#inquiry" class="btn btn-primary" data-i18n="heroCtaInquiry"></a>
           <a href="#gallery" class="btn btn-secondary" data-i18n="heroCtaGallery"></a>
@@ -104,28 +104,40 @@
         <h2 data-i18n="galleryTitle"></h2>
       </div>
       <div class="gallery-grid">
-        <a class="glightbox gallery-item" href="images/Corridor.png" data-gallery="rooms" data-title="복도 | Corridor">
-          <img src="images/Corridor.png" alt="복도">
+        <a class="glightbox gallery-item" id="galleryItem0" href="images/Room_main.png" data-gallery="rooms" data-title="객실 | Room">
+          <img id="galleryImg0" src="images/Room_main.png" alt="객실">
+          <span data-i18n="captionRoomMain"></span>
+        </a>
+        <a class="glightbox gallery-item" id="galleryItem1" href="images/Hallway_modern.png" data-gallery="rooms" data-title="복도 | Hallway">
+          <img id="galleryImg1" src="images/Hallway_modern.png" alt="복도">
+          <span data-i18n="captionHallwayModern"></span>
+        </a>
+        <a class="glightbox gallery-item" id="galleryItem2" href="images/building_outlook.png" data-gallery="rooms" data-title="외관 | Exterior">
+          <img id="galleryImg2" src="images/building_outlook.png" alt="외관">
+          <span data-i18n="captionExterior"></span>
+        </a>
+        <a class="glightbox gallery-item" id="galleryItem3" href="images/Corridor.png" data-gallery="rooms" data-title="복도 | Corridor">
+          <img id="galleryImg3" src="images/Corridor.png" alt="복도">
           <span data-i18n="captionCorridor"></span>
         </a>
-        <a class="glightbox gallery-item" href="images/lobby.png" data-gallery="rooms" data-title="로비 | Lobby">
-          <img src="images/lobby.png" alt="로비">
+        <a class="glightbox gallery-item" id="galleryItem4" href="images/lobby.png" data-gallery="rooms" data-title="로비 | Lobby">
+          <img id="galleryImg4" src="images/lobby.png" alt="로비">
           <span data-i18n="captionLobby"></span>
         </a>
-        <a class="glightbox gallery-item" href="images/Room_1.png" data-gallery="rooms" data-title="객실 1 | Room 1">
-          <img src="images/Room_1.png" alt="객실 1">
+        <a class="glightbox gallery-item" id="galleryItem5" href="images/Room_1.png" data-gallery="rooms" data-title="객실 1 | Room 1">
+          <img id="galleryImg5" src="images/Room_1.png" alt="객실 1">
           <span data-i18n="captionRoom1"></span>
         </a>
-        <a class="glightbox gallery-item" href="images/Room_2.png" data-gallery="rooms" data-title="객실 2 | Room 2">
-          <img src="images/Room_2.png" alt="객실 2">
+        <a class="glightbox gallery-item" id="galleryItem6" href="images/Room_2.png" data-gallery="rooms" data-title="객실 2 | Room 2">
+          <img id="galleryImg6" src="images/Room_2.png" alt="객실 2">
           <span data-i18n="captionRoom2"></span>
         </a>
-        <a class="glightbox gallery-item" href="images/Room3.png" data-gallery="rooms" data-title="객실 3 | Room 3">
-          <img src="images/Room3.png" alt="객실 3">
+        <a class="glightbox gallery-item" id="galleryItem7" href="images/Room3.png" data-gallery="rooms" data-title="객실 3 | Room 3">
+          <img id="galleryImg7" src="images/Room3.png" alt="객실 3">
           <span data-i18n="captionRoom3"></span>
         </a>
-        <a class="glightbox gallery-item" href="images/Room_4.png" data-gallery="rooms" data-title="객실 4 | Room 4">
-          <img src="images/Room_4.png" alt="객실 4">
+        <a class="glightbox gallery-item" id="galleryItem8" href="images/Room_4.png" data-gallery="rooms" data-title="객실 4 | Room 4">
+          <img id="galleryImg8" src="images/Room_4.png" alt="객실 4">
           <span data-i18n="captionRoom4"></span>
         </a>
       </div>
@@ -150,7 +162,6 @@
         <article class="pricing-card">
           <h3 data-i18n="pricingIncludeTitle"></h3>
           <p data-i18n="pricingIncludeBody"></p>
-          <p class="muted" data-i18n="pricingUpdate"></p>
         </article>
       </div>
       <p class="pricing-note" data-i18n="pricingNote"></p>
@@ -253,8 +264,9 @@
     <div class="footer-links">
       <a href="#inquiry" data-i18n="footerInquiry"></a>
       <a href="#location" data-i18n="footerLocation"></a>
+      <a href="admin.html">Admin</a>
     </div>
-    <small>© <span id="year"></span> Homestade Bangbae</small>
+    <small>© <span id="year"></span> <span id="footerBrand">Homestead Seoul</span></small>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.1/js/glightbox.min.js"></script>

@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homestead Seoul Admin</title>
+  <style>
+    :root {
+      --bg: #faf6f1;
+      --card: #ffffff;
+      --line: #dfd2c4;
+      --ink: #2c2c2c;
+      --accent: #c9906a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 20px 16px 60px;
+    }
+    h1 { margin: 0 0 8px; }
+    .help {
+      margin: 0 0 18px;
+      color: #705a46;
+      font-size: 14px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+    .grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .grid.two { grid-template-columns: 1fr 1fr; }
+    }
+    label {
+      display: grid;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    input, textarea {
+      width: 100%;
+      border: 1px solid #c9b9a7;
+      border-radius: 8px;
+      min-height: 42px;
+      padding: 8px 10px;
+      font: inherit;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    button, .link-btn {
+      border: 0;
+      border-radius: 999px;
+      min-height: 44px;
+      padding: 10px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .save { background: var(--accent); color: #fff; }
+    .reset { background: #2c2c2c; color: #fff; }
+    .download { background: #efe2d5; color: #4b3322; }
+    .link-btn { background: #f8eee4; color: #4b3322; border: 1px solid #dbcab8; }
+    .status {
+      min-height: 22px;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e6b3b;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Homestead Seoul Admin</h1>
+    <p class="help">
+      이 페이지는 같은 브라우저의 로컬 저장소에만 저장됩니다. 다른 기기/브라우저에는 자동 동기화되지 않습니다.
+    </p>
+
+    <section class="card">
+      <h2>브랜딩</h2>
+      <div class="grid two">
+        <label>한글 이름
+          <input id="brandKo" type="text">
+        </label>
+        <label>영문 이름
+          <input id="brandEn" type="text">
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Hero</h2>
+      <div class="grid">
+        <label>Hero 이미지 URL/경로
+          <input id="heroImage" type="text">
+        </label>
+      </div>
+      <div class="grid two">
+        <label>KO Hero 제목
+          <input id="heroTitleKo" type="text">
+        </label>
+        <label>EN Hero 제목
+          <input id="heroTitleEn" type="text">
+        </label>
+      </div>
+      <div class="grid two">
+        <label>KO Hero 부제
+          <textarea id="heroSubtitleKo"></textarea>
+        </label>
+        <label>EN Hero 부제
+          <textarea id="heroSubtitleEn"></textarea>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>갤러리 이미지 경로</h2>
+      <div class="grid">
+        <label>1
+          <input id="gallery0" type="text">
+        </label>
+        <label>2
+          <input id="gallery1" type="text">
+        </label>
+        <label>3
+          <input id="gallery2" type="text">
+        </label>
+        <label>4
+          <input id="gallery3" type="text">
+        </label>
+        <label>5
+          <input id="gallery4" type="text">
+        </label>
+        <label>6
+          <input id="gallery5" type="text">
+        </label>
+        <label>7
+          <input id="gallery6" type="text">
+        </label>
+        <label>8
+          <input id="gallery7" type="text">
+        </label>
+        <label>9
+          <input id="gallery8" type="text">
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>가격 문구</h2>
+      <div class="grid two">
+        <label>KO 단기 메인
+          <input id="pricingNightlyMainKo" type="text">
+        </label>
+        <label>EN 단기 메인
+          <input id="pricingNightlyMainEn" type="text">
+        </label>
+      </div>
+      <div class="grid two">
+        <label>KO 단기 범위
+          <input id="pricingNightlyRangeKo" type="text">
+        </label>
+        <label>EN 단기 범위
+          <input id="pricingNightlyRangeEn" type="text">
+        </label>
+      </div>
+      <div class="grid two">
+        <label>KO 월세 메인
+          <input id="pricingMonthlyMainKo" type="text">
+        </label>
+        <label>EN 월세 메인
+          <input id="pricingMonthlyMainEn" type="text">
+        </label>
+      </div>
+      <div class="grid two">
+        <label>KO 월세 범위
+          <input id="pricingMonthlyRangeKo" type="text">
+        </label>
+        <label>EN 월세 범위
+          <input id="pricingMonthlyRangeEn" type="text">
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>연락처</h2>
+      <div class="grid two">
+        <label>전화번호
+          <input id="phone" type="text">
+        </label>
+        <label>이메일
+          <input id="email" type="email">
+        </label>
+      </div>
+      <div class="grid two">
+        <label>Kakao URL
+          <input id="kakaoUrl" type="text">
+        </label>
+        <label>WhatsApp 번호 (국가코드 포함 숫자만)
+          <input id="whatsappNumber" type="text">
+        </label>
+      </div>
+      <div class="grid">
+        <label>Google Map Embed URL
+          <input id="mapEmbed" type="text">
+        </label>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="save" id="saveBtn" type="button">저장</button>
+      <button class="reset" id="resetBtn" type="button">초기화</button>
+      <button class="download" id="downloadBtn" type="button">JSON 다운로드</button>
+      <a class="link-btn" href="index.html" target="_blank" rel="noopener noreferrer">사이트 열기</a>
+    </div>
+    <p class="status" id="status"></p>
+  </main>
+
+  <script>
+    const KEY = "homestead_admin_overrides";
+    const defaults = {
+      branding: { ko: "홈스테이드 서울", en: "Homestead Seoul" },
+      media: {
+        heroImage: "https://images.unsplash.com/photo-1538485399081-7c8976de83cc?auto=format&fit=crop&w=1800&q=80",
+        gallery: [
+          { src: "images/Room_main.png" },
+          { src: "images/Hallway_modern.png" },
+          { src: "images/building_outlook.png" },
+          { src: "images/Corridor.png" },
+          { src: "images/lobby.png" },
+          { src: "images/Room_1.png" },
+          { src: "images/Room_2.png" },
+          { src: "images/Room3.png" },
+          { src: "images/Room_4.png" }
+        ]
+      },
+      translations: {
+        ko: {
+          heroTitle: "서울 중심부, 나만의 평안한 공간",
+          heroSubtitle: "출퇴근과 서울 여행을 모두 편하게 만드는 실속형 스테이.",
+          pricingNightlyMain: "₩45,000 / 1박부터",
+          pricingNightlyRange: "평일 보통 ₩45,000~₩60,000, 주말/성수기 변동 가능",
+          pricingMonthlyMain: "₩650,000 / 월부터",
+          pricingMonthlyRange: "객실 타입 및 계약 기간에 따라 상이"
+        },
+        en: {
+          heroTitle: "A Peaceful Space in Central Seoul",
+          heroSubtitle: "Practical stay for both daily commuting and city sightseeing.",
+          pricingNightlyMain: "From KRW 45,000 / night",
+          pricingNightlyRange: "Typical weekday KRW 45,000-60,000, weekend/peak season varies",
+          pricingMonthlyMain: "From KRW 650,000 / month",
+          pricingMonthlyRange: "Final rate depends on room type and contract length"
+        }
+      },
+      contact: {
+        phone: "+82-10-0000-0000",
+        email: "you@example.com",
+        kakaoUrl: "https://open.kakao.com/o/replace-me",
+        whatsappNumber: "821000000000",
+        mapEmbed: "https://www.google.com/maps?q=%EC%84%9C%EC%9A%B8%20%EB%B0%A9%EB%B0%B0%EB%8F%99%20911-14&output=embed"
+      }
+    };
+
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function readData() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if (!raw) return clone(defaults);
+        const parsed = JSON.parse(raw);
+        return {
+          branding: { ...defaults.branding, ...(parsed.branding || {}) },
+          media: {
+            heroImage: parsed.media?.heroImage || defaults.media.heroImage,
+            gallery: defaults.media.gallery.map((item, i) => ({
+              src: parsed.media?.gallery?.[i]?.src || item.src
+            }))
+          },
+          translations: {
+            ko: { ...defaults.translations.ko, ...(parsed.translations?.ko || {}) },
+            en: { ...defaults.translations.en, ...(parsed.translations?.en || {}) }
+          },
+          contact: { ...defaults.contact, ...(parsed.contact || {}) }
+        };
+      } catch (_) {
+        return clone(defaults);
+      }
+    }
+
+    function writeData(data) {
+      localStorage.setItem(KEY, JSON.stringify(data, null, 2));
+    }
+
+    function fillForm(data) {
+      document.getElementById("brandKo").value = data.branding.ko;
+      document.getElementById("brandEn").value = data.branding.en;
+      document.getElementById("heroImage").value = data.media.heroImage;
+      document.getElementById("heroTitleKo").value = data.translations.ko.heroTitle;
+      document.getElementById("heroTitleEn").value = data.translations.en.heroTitle;
+      document.getElementById("heroSubtitleKo").value = data.translations.ko.heroSubtitle;
+      document.getElementById("heroSubtitleEn").value = data.translations.en.heroSubtitle;
+
+      data.media.gallery.forEach((item, i) => {
+        const input = document.getElementById("gallery" + i);
+        if (input) input.value = item.src;
+      });
+
+      document.getElementById("pricingNightlyMainKo").value = data.translations.ko.pricingNightlyMain;
+      document.getElementById("pricingNightlyMainEn").value = data.translations.en.pricingNightlyMain;
+      document.getElementById("pricingNightlyRangeKo").value = data.translations.ko.pricingNightlyRange;
+      document.getElementById("pricingNightlyRangeEn").value = data.translations.en.pricingNightlyRange;
+      document.getElementById("pricingMonthlyMainKo").value = data.translations.ko.pricingMonthlyMain;
+      document.getElementById("pricingMonthlyMainEn").value = data.translations.en.pricingMonthlyMain;
+      document.getElementById("pricingMonthlyRangeKo").value = data.translations.ko.pricingMonthlyRange;
+      document.getElementById("pricingMonthlyRangeEn").value = data.translations.en.pricingMonthlyRange;
+
+      document.getElementById("phone").value = data.contact.phone;
+      document.getElementById("email").value = data.contact.email;
+      document.getElementById("kakaoUrl").value = data.contact.kakaoUrl;
+      document.getElementById("whatsappNumber").value = data.contact.whatsappNumber;
+      document.getElementById("mapEmbed").value = data.contact.mapEmbed;
+    }
+
+    function getFormData() {
+      return {
+        branding: {
+          ko: document.getElementById("brandKo").value.trim(),
+          en: document.getElementById("brandEn").value.trim()
+        },
+        media: {
+          heroImage: document.getElementById("heroImage").value.trim(),
+          gallery: Array.from({ length: 9 }, (_, i) => ({
+            src: document.getElementById("gallery" + i).value.trim()
+          }))
+        },
+        translations: {
+          ko: {
+            heroTitle: document.getElementById("heroTitleKo").value.trim(),
+            heroSubtitle: document.getElementById("heroSubtitleKo").value.trim(),
+            pricingNightlyMain: document.getElementById("pricingNightlyMainKo").value.trim(),
+            pricingNightlyRange: document.getElementById("pricingNightlyRangeKo").value.trim(),
+            pricingMonthlyMain: document.getElementById("pricingMonthlyMainKo").value.trim(),
+            pricingMonthlyRange: document.getElementById("pricingMonthlyRangeKo").value.trim()
+          },
+          en: {
+            heroTitle: document.getElementById("heroTitleEn").value.trim(),
+            heroSubtitle: document.getElementById("heroSubtitleEn").value.trim(),
+            pricingNightlyMain: document.getElementById("pricingNightlyMainEn").value.trim(),
+            pricingNightlyRange: document.getElementById("pricingNightlyRangeEn").value.trim(),
+            pricingMonthlyMain: document.getElementById("pricingMonthlyMainEn").value.trim(),
+            pricingMonthlyRange: document.getElementById("pricingMonthlyRangeEn").value.trim()
+          }
+        },
+        contact: {
+          phone: document.getElementById("phone").value.trim(),
+          email: document.getElementById("email").value.trim(),
+          kakaoUrl: document.getElementById("kakaoUrl").value.trim(),
+          whatsappNumber: document.getElementById("whatsappNumber").value.trim(),
+          mapEmbed: document.getElementById("mapEmbed").value.trim()
+        }
+      };
+    }
+
+    function setStatus(msg) {
+      document.getElementById("status").textContent = msg;
+    }
+
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      const data = getFormData();
+      writeData(data);
+      setStatus("저장 완료: 메인 페이지 새로고침 시 반영됩니다.");
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      localStorage.removeItem(KEY);
+      fillForm(clone(defaults));
+      setStatus("초기화 완료: 기본값으로 되돌렸습니다.");
+    });
+
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const data = getFormData();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "homestead-admin-overrides.json";
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus("JSON 다운로드 완료");
+    });
+
+    fillForm(readData());
+  </script>
+</body>
+</html>

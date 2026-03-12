@@ -94,6 +94,24 @@ a {
   gap: 10px;
 }
 
+.admin-link {
+  text-decoration: none;
+  border: 1px solid var(--line);
+  background: #fff9f1;
+  border-radius: 999px;
+  min-height: 42px;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6a4b36;
+}
+
+.admin-link:hover {
+  color: var(--accent);
+}
+
 .lang-switch {
   display: flex;
   border: 1px solid var(--line);
@@ -261,10 +279,6 @@ p {
 
 .hero-subtitle {
   max-width: 64ch;
-}
-
-.hero-address {
-  opacity: 0.92;
 }
 
 .hero-cta {
