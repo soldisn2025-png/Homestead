@@ -225,7 +225,7 @@
   <script>
     const KEY = "homestead_admin_overrides";
     const SESSION_KEY = "homestead_admin_session";
-    const ALLOWED_EMAIL = "homesteadseoul@gmail.com";
+    const FALLBACK_ALLOWED_EMAIL = "homesteadseoul@gmail.com";
     const SESSION_MAX_AGE_MS = 1000 * 60 * 60 * 12;
 
     const defaults = {
@@ -279,8 +279,9 @@
         }
         const session = JSON.parse(raw);
         const email = String(session.email || "").toLowerCase();
+        const allowedEmail = String(session.allowedEmail || FALLBACK_ALLOWED_EMAIL).toLowerCase();
         const ts = Number(session.ts || 0);
-        if (email !== ALLOWED_EMAIL || !ts || Date.now() - ts > SESSION_MAX_AGE_MS) {
+        if (email !== allowedEmail || !ts || Date.now() - ts > SESSION_MAX_AGE_MS) {
           localStorage.removeItem(SESSION_KEY);
           location.replace("admin-login.html");
           return null;

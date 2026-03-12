@@ -61,9 +61,11 @@
   </main>
 
   <script>
-    const ALLOWED_EMAIL = "homesteadseoul@gmail.com";
+    const FALLBACK_ALLOWED_EMAIL = "homesteadseoul@gmail.com";
     const SESSION_KEY = "homestead_admin_session";
-    const GOOGLE_CLIENT_ID = "94453356823-ivv1ku38dlqj5ff2gaik2irs1vl2b6nd.apps.googleusercontent.com";
+    const FALLBACK_GOOGLE_CLIENT_ID = "94453356823-ivv1ku38dlqj5ff2gaik2irs1vl2b6nd.apps.googleusercontent.com";
+    let ALLOWED_EMAIL = FALLBACK_ALLOWED_EMAIL;
+    let GOOGLE_CLIENT_ID = FALLBACK_GOOGLE_CLIENT_ID;
 
     function setStatus(msg, cls = "") {
       const node = document.getElementById("status");
@@ -96,6 +98,7 @@
           SESSION_KEY,
           JSON.stringify({
             email,
+            allowedEmail: ALLOWED_EMAIL,
             ts: Date.now(),
           })
         );
@@ -108,13 +111,29 @@
       }
     }
 
-    function init() {
+    async function loadPublicConfig() {
+      try {
+        const res = await fetch("/api/public-config", { cache: "no-store" });
+        if (!res.ok) return;
+        const cfg = await res.json();
+        if (typeof cfg.googleClientId === "string") GOOGLE_CLIENT_ID = cfg.googleClientId;
+        if (typeof cfg.allowedAdminEmail === "string" && cfg.allowedAdminEmail) {
+          ALLOWED_EMAIL = cfg.allowedAdminEmail.toLowerCase();
+        }
+      } catch (_) {
+        // keep fallbacks
+      }
+    }
+
+    async function init() {
+      await loadPublicConfig();
+
       if (!window.google || !window.google.accounts || !window.google.accounts.id) {
         setStatus("Google SDK 로딩 실패", "err");
         return;
       }
-      if (GOOGLE_CLIENT_ID.includes("REPLACE_WITH_GOOGLE_CLIENT_ID")) {
-        setStatus("admin-login.html에서 GOOGLE_CLIENT_ID를 설정해 주세요.", "err");
+      if (!GOOGLE_CLIENT_ID) {
+        setStatus("Cloudflare 변수 GOOGLE_CLIENT_ID를 설정해 주세요.", "err");
         return;
       }
 

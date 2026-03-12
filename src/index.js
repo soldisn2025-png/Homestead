@@ -75,6 +75,7 @@ function formatEmailHtml(payload, request) {
 }
 
 async function sendEmail(payload, request, env) {
+  if (!env.RESEND_API_KEY || !env.EMAIL_TO || !env.EMAIL_FROM) return false;
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -142,10 +143,8 @@ async function sendSms(payload, env) {
   return response.ok;
 }
 
-export async function onRequestPost(context) {
-  const { request, env } = context;
+async function handleInquiry(request, env) {
   let payload;
-
   try {
     payload = await request.json();
   } catch (_) {
@@ -167,8 +166,34 @@ export async function onRequestPost(context) {
     return json({ ok: false, code: "email_fail", message: getMessage(lang, "email_fail") }, 502);
   }
 
-  // SMS is non-blocking by design for v1 reliability and cost control.
   await sendSms(payload, env);
-
   return json({ ok: true, message: getMessage(lang, "accepted") }, 200);
 }
+
+function handlePublicConfig(env) {
+  return json({
+    googleClientId: env.GOOGLE_CLIENT_ID || "",
+    allowedAdminEmail: env.ADMIN_ALLOWED_EMAIL || "homesteadseoul@gmail.com",
+  });
+}
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const { pathname } = url;
+
+    if (pathname === "/api/public-config" && request.method === "GET") {
+      return handlePublicConfig(env);
+    }
+
+    if (pathname === "/api/inquiry" && request.method === "POST") {
+      return handleInquiry(request, env);
+    }
+
+    if (pathname === "/api/health") {
+      return json({ ok: true, service: "homestead-worker" });
+    }
+
+    return env.ASSETS.fetch(request);
+  },
+};

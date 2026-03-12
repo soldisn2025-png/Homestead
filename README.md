@@ -1,12 +1,13 @@
 # Homestead Seoul Website
 
-Single-page bilingual (KO/EN) marketing website with Cloudflare Pages Functions inquiry API.
+Single-page bilingual (KO/EN) marketing website with Cloudflare Workers + Static Assets.
 
 ## Local files
 - `index.html` - UI structure and content sections
 - `styles.css` - mobile-first design system and animations
 - `script.js` - i18n, drawer nav, gallery, contact links, inquiry submit
-- `functions/api/inquiry.js` - Turnstile + Resend + Solapi backend endpoint
+- `src/index.js` - Worker API (`/api/inquiry`, `/api/public-config`) + static asset pass-through
+- `wrangler.jsonc` - Worker + assets configuration
 - `admin-login.html` - Google sign-in page for admin access
 - `admin.html` - admin editor (requires authenticated session)
 
@@ -32,24 +33,26 @@ Admin menu stores values in browser `localStorage` key:
 
 ## Admin access control
 - `admin-login.html` Google sign-in success is required before `admin.html` is accessible.
-- Allowed account:
-  - `homesteadseoul@gmail.com`
-- Set your Google OAuth client id in `admin-login.html`:
-  - `GOOGLE_CLIENT_ID = "REPLACE_WITH_GOOGLE_CLIENT_ID.apps.googleusercontent.com"`
+- Allowed account defaults to `homesteadseoul@gmail.com`
+- Admin login page reads these from Worker env via `/api/public-config`:
+  - `GOOGLE_CLIENT_ID`
+  - `ADMIN_ALLOWED_EMAIL` (optional; default `homesteadseoul@gmail.com`)
 
-## Cloudflare Pages setup
-1. Deploy this folder as a Cloudflare Pages project.
-2. Enable Pages Functions (auto by `functions/` directory).
-3. Add these environment variables:
+## Cloudflare Workers setup
+1. Deploy repository with Cloudflare Git integration (Workers & Pages UI).
+2. Ensure `wrangler.jsonc` is in repo root.
+3. Add Worker variables/secrets:
+   - `GOOGLE_CLIENT_ID`
+   - `ADMIN_ALLOWED_EMAIL` (optional)
    - `RESEND_API_KEY`
    - `EMAIL_TO`
    - `EMAIL_FROM`
-   - `SOLAPI_API_KEY`
-   - `SOLAPI_API_SECRET`
-   - `SMS_TO`
-   - `SMS_FROM`
-   - `TURNSTILE_SECRET_KEY`
-4. In Cloudflare Turnstile, create a site and replace `data-sitekey` in `index.html`.
+   - `SOLAPI_API_KEY` (optional)
+   - `SOLAPI_API_SECRET` (optional)
+   - `SMS_TO` (optional)
+   - `SMS_FROM` (optional)
+   - `TURNSTILE_SECRET_KEY` (optional)
+4. For Turnstile widget, set real site key in `index.html` (`data-sitekey`).
 
 ## API contract
 `POST /api/inquiry`
