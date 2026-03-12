@@ -2,6 +2,28 @@
   "name": "homestead",
   "main": "src/index.js",
   "compatibility_date": "2026-03-12",
+  "keep_vars": true,
+  "routes": [
+    {
+      "pattern": "homesteadseoul.com",
+      "zone_name": "homesteadseoul.com",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.homesteadseoul.com",
+      "zone_name": "homesteadseoul.com",
+      "custom_domain": true
+    }
+  ],
+  "vars": {
+    "CANONICAL_HOST": "homesteadseoul.com",
+    "GOOGLE_CLIENT_ID": "94453356823-ivv1ku38dlqj5ff2gaik2irs1vl2b6nd.apps.googleusercontent.com",
+    "ADMIN_ALLOWED_EMAIL": "homesteadseoul@gmail.com",
+    "EMAIL_TO": "homesteadseoul@gmail.com",
+    "EMAIL_FROM": "Homestead Seoul <onboarding@resend.dev>",
+    "SMS_TO": "821032868682",
+    "SMS_FROM": "01032868682"
+  },
   "durable_objects": {
     "bindings": [
       {

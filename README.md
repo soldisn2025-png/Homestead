@@ -48,6 +48,7 @@ Cross-device sync:
 ## Cloudflare Workers setup
 1. Deploy repository with Cloudflare Git integration (Workers & Pages UI).
 2. Ensure `wrangler.jsonc` is in repo root.
+   - `keep_vars: true` is enabled so dashboard secrets/vars are not wiped by deploy.
 3. Add Worker variables/secrets:
    - `CANONICAL_HOST` (recommended: `homesteadseoul.com`)
    - `GOOGLE_CLIENT_ID`
