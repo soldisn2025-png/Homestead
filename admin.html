@@ -154,7 +154,7 @@
     <p class="who" id="who"></p>
     <p class="help">
       인증된 관리자 세션에서만 접근 가능합니다. 저장 데이터는 브라우저 localStorage에 기록됩니다.
-      <br>주의: <strong>같은 도메인</strong>(예: `homesteadseoul.com`과 `www.homesteadseoul.com`은 서로 다름)에서 확인해야 반영됩니다.
+      <br>`www` 접속은 대표 도메인으로 자동 이동되므로, 하나의 버전만 관리됩니다.
     </p>
 
     <section class="card">
@@ -538,7 +538,7 @@
         setStatus(result.message);
         return;
       }
-      setStatus("저장 완료: 같은 도메인 탭에서 새로고침 시 반영됩니다.");
+      setStatus("저장 완료: 새로고침하면 즉시 반영됩니다.");
     });
 
     document.getElementById("resetBtn").addEventListener("click", () => {

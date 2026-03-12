@@ -38,11 +38,13 @@ Admin menu stores values in browser `localStorage` key:
 - Admin login page reads these from Worker env via `/api/public-config`:
   - `GOOGLE_CLIENT_ID`
   - `ADMIN_ALLOWED_EMAIL` (optional; default `homesteadseoul@gmail.com`)
+- `www` and apex are unified by Worker redirect (`308`) to one canonical host.
 
 ## Cloudflare Workers setup
 1. Deploy repository with Cloudflare Git integration (Workers & Pages UI).
 2. Ensure `wrangler.jsonc` is in repo root.
 3. Add Worker variables/secrets:
+   - `CANONICAL_HOST` (recommended: `homesteadseoul.com`)
    - `GOOGLE_CLIENT_ID`
    - `ADMIN_ALLOWED_EMAIL` (optional)
    - `RESEND_API_KEY`

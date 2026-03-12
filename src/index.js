@@ -8,6 +8,24 @@ function json(body, status = 200) {
   });
 }
 
+function getCanonicalRedirectResponse(request, env) {
+  const url = new URL(request.url);
+  const host = url.hostname.toLowerCase();
+  const canonicalHost = (env.CANONICAL_HOST || "homesteadseoul.com").toLowerCase();
+  if (!canonicalHost) return null;
+
+  const alternateHost = canonicalHost.startsWith("www.")
+    ? canonicalHost.replace(/^www\./, "")
+    : `www.${canonicalHost}`;
+
+  const isManagedHost = host === canonicalHost || host === alternateHost;
+  if (!isManagedHost || host === canonicalHost) return null;
+
+  url.hostname = canonicalHost;
+  url.protocol = "https:";
+  return Response.redirect(url.toString(), 308);
+}
+
 function getMessage(lang, key) {
   const dict = {
     ko: {
@@ -220,6 +238,9 @@ function handlePublicConfig(env) {
 
 export default {
   async fetch(request, env) {
+    const canonicalRedirect = getCanonicalRedirectResponse(request, env);
+    if (canonicalRedirect) return canonicalRedirect;
+
     const url = new URL(request.url);
     const { pathname } = url;
 
