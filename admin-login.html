@@ -12,6 +12,8 @@
       --ink: #2c2c2c;
       --ok: #216a3d;
       --err: #b94b4b;
+      --muted: #6f5a47;
+      --accent: #c9906a;
     }
     * { box-sizing: border-box; }
     body {
@@ -25,17 +27,73 @@
       padding: 16px;
     }
     .card {
-      width: min(520px, 100%);
+      width: min(560px, 100%);
       border: 1px solid var(--line);
       border-radius: 16px;
       background: var(--card);
       padding: 20px;
     }
     h1 { margin: 0 0 8px; font-size: 28px; }
-    p { margin: 0 0 10px; color: #6f5a47; }
+    p { margin: 0 0 10px; color: var(--muted); }
+    .divider {
+      margin: 16px 0;
+      border-top: 1px solid #e8dbce;
+      position: relative;
+      height: 0;
+    }
+    .divider span {
+      position: absolute;
+      left: 50%;
+      top: -11px;
+      transform: translateX(-50%);
+      background: var(--card);
+      padding: 0 10px;
+      color: #8a6c54;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    form {
+      display: grid;
+      gap: 10px;
+    }
+    label {
+      display: grid;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #5d4635;
+    }
+    input {
+      width: 100%;
+      border: 1px solid #ccb9a6;
+      border-radius: 8px;
+      min-height: 42px;
+      padding: 8px 10px;
+      font: inherit;
+    }
+    button {
+      border: 0;
+      border-radius: 999px;
+      min-height: 44px;
+      padding: 10px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .hint {
+      margin: 8px 0 0;
+      font-size: 12px;
+      color: #7d624e;
+    }
     .status {
       min-height: 22px;
-      margin-top: 8px;
+      margin-top: 10px;
       font-size: 14px;
       font-weight: 700;
     }
@@ -53,23 +111,52 @@
 <body>
   <main class="card">
     <h1>Admin Login</h1>
-    <p>해당 페이지는 로그인 후 접근 가능합니다.</p>
+    <p>Sign in with Google. If Google login fails, use the ID/PW backup below.</p>
+
     <div id="googleBtn"></div>
+
+    <div class="divider"><span>OR</span></div>
+
+    <form id="passwordLoginForm" autocomplete="off">
+      <label>ID
+        <input id="loginId" name="id" type="text" required>
+      </label>
+      <label>Password
+        <input id="loginPassword" name="password" type="password" required>
+      </label>
+      <button id="passwordSubmitBtn" type="submit">Login with ID/PW</button>
+    </form>
+    <p class="hint" id="pwdHint"></p>
+
     <p id="status" class="status"></p>
-    <a class="link" href="index.html">← 홈으로 돌아가기</a>
+    <a class="link" href="index.html">Back to Home</a>
   </main>
 
   <script>
-    const FALLBACK_ALLOWED_EMAIL = "homesteadseoul@gmail.com";
     const SESSION_KEY = "homestead_admin_session";
+    const FALLBACK_ALLOWED_EMAIL = "homesteadseoul@gmail.com";
     const FALLBACK_GOOGLE_CLIENT_ID = "94453356823-ivv1ku38dlqj5ff2gaik2irs1vl2b6nd.apps.googleusercontent.com";
+    const DEFAULT_ADMIN_ID = "homesteadseoul@gmail.com";
     let ALLOWED_EMAIL = FALLBACK_ALLOWED_EMAIL;
     let GOOGLE_CLIENT_ID = FALLBACK_GOOGLE_CLIENT_ID;
+    let PASSWORD_LOGIN_ENABLED = false;
 
-    function setStatus(msg, cls = "") {
+    function setStatus(msg, cls) {
       const node = document.getElementById("status");
-      node.textContent = msg;
-      node.className = "status " + cls;
+      node.textContent = msg || "";
+      node.className = cls ? `status ${cls}` : "status";
+    }
+
+    function saveSession(session) {
+      localStorage.setItem(
+        SESSION_KEY,
+        JSON.stringify({
+          email: String(session.email || ALLOWED_EMAIL).toLowerCase(),
+          allowedEmail: String(session.allowedEmail || ALLOWED_EMAIL).toLowerCase(),
+          ts: Number(session.ts || Date.now()),
+          authType: String(session.authType || "google"),
+        })
+      );
     }
 
     function decodeJwtPayload(jwt) {
@@ -84,30 +171,37 @@
       return JSON.parse(json);
     }
 
-    function onCredential(response) {
+    function onGoogleCredential(response) {
       try {
         const payload = decodeJwtPayload(response.credential);
         const email = String(payload.email || "").toLowerCase();
         const verified = payload.email_verified === true;
         if (!verified || email !== ALLOWED_EMAIL) {
-          setStatus("허용되지 않은 계정입니다.", "err");
+          setStatus("This Google account is not allowed.", "err");
           return;
         }
-        localStorage.setItem(
-          SESSION_KEY,
-          JSON.stringify({
-            email,
-            allowedEmail: ALLOWED_EMAIL,
-            ts: Date.now(),
-          })
-        );
-        setStatus("인증 완료. 관리자 페이지로 이동합니다.", "ok");
+        saveSession({ email, allowedEmail: ALLOWED_EMAIL, ts: Date.now(), authType: "google" });
+        setStatus("Google login successful. Redirecting...", "ok");
         setTimeout(() => {
           location.href = "admin.html";
-        }, 400);
+        }, 350);
       } catch (_) {
-        setStatus("로그인 토큰 검증 실패", "err");
+        setStatus("Failed to validate Google token.", "err");
       }
+    }
+
+    function setPasswordFormEnabled(enabled) {
+      PASSWORD_LOGIN_ENABLED = Boolean(enabled);
+      const hint = document.getElementById("pwdHint");
+      const btn = document.getElementById("passwordSubmitBtn");
+      const idInput = document.getElementById("loginId");
+      const pwdInput = document.getElementById("loginPassword");
+      btn.disabled = !PASSWORD_LOGIN_ENABLED;
+      idInput.disabled = !PASSWORD_LOGIN_ENABLED;
+      pwdInput.disabled = !PASSWORD_LOGIN_ENABLED;
+      hint.textContent = PASSWORD_LOGIN_ENABLED
+        ? "Backup login is enabled."
+        : "Backup login is disabled. Set ADMIN_LOGIN_ID and ADMIN_LOGIN_PASSWORD in Cloudflare Worker variables.";
     }
 
     async function loadPublicConfig() {
@@ -115,30 +209,63 @@
         const res = await fetch("/api/public-config", { cache: "no-store" });
         if (!res.ok) return;
         const cfg = await res.json();
-        if (typeof cfg.googleClientId === "string") GOOGLE_CLIENT_ID = cfg.googleClientId;
+        if (typeof cfg.googleClientId === "string" && cfg.googleClientId) GOOGLE_CLIENT_ID = cfg.googleClientId;
         if (typeof cfg.allowedAdminEmail === "string" && cfg.allowedAdminEmail) {
           ALLOWED_EMAIL = cfg.allowedAdminEmail.toLowerCase();
         }
+        if (cfg.passwordLoginEnabled === true) setPasswordFormEnabled(true);
       } catch (_) {
-        // keep fallbacks
+        // Keep fallback values.
       }
     }
 
-    async function init() {
-      await loadPublicConfig();
+    async function submitPasswordLogin(event) {
+      event.preventDefault();
+      if (!PASSWORD_LOGIN_ENABLED) {
+        setStatus("Backup login is not configured yet.", "err");
+        return;
+      }
+      const id = document.getElementById("loginId").value.trim();
+      const password = document.getElementById("loginPassword").value;
+      if (!id || !password) {
+        setStatus("Please enter ID and password.", "err");
+        return;
+      }
 
+      setStatus("Checking credentials...");
+      try {
+        const res = await fetch("/api/admin-login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, password }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok || !data.session) {
+          setStatus(data.message || "ID/PW login failed.", "err");
+          return;
+        }
+        saveSession(data.session);
+        setStatus("ID/PW login successful. Redirecting...", "ok");
+        setTimeout(() => {
+          location.href = "admin.html";
+        }, 350);
+      } catch (_) {
+        setStatus("Network error while trying ID/PW login.", "err");
+      }
+    }
+
+    async function initGoogleLogin() {
       if (!window.google || !window.google.accounts || !window.google.accounts.id) {
-        setStatus("Google SDK 로딩 실패", "err");
+        setStatus("Google SDK load failed. Use ID/PW backup login.", "err");
         return;
       }
       if (!GOOGLE_CLIENT_ID) {
-        setStatus("Cloudflare 변수 GOOGLE_CLIENT_ID를 설정해 주세요.", "err");
+        setStatus("GOOGLE_CLIENT_ID is missing. Use ID/PW backup login.", "err");
         return;
       }
-
       window.google.accounts.id.initialize({
         client_id: GOOGLE_CLIENT_ID,
-        callback: onCredential,
+        callback: onGoogleCredential,
         auto_select: false,
       });
       window.google.accounts.id.renderButton(
@@ -146,6 +273,14 @@
         { theme: "outline", size: "large", text: "signin_with" }
       );
       window.google.accounts.id.prompt();
+    }
+
+    async function init() {
+      setPasswordFormEnabled(false);
+      document.getElementById("loginId").value = DEFAULT_ADMIN_ID;
+      document.getElementById("passwordLoginForm").addEventListener("submit", submitPasswordLogin);
+      await loadPublicConfig();
+      await initGoogleLogin();
     }
 
     window.addEventListener("load", init);

@@ -47,6 +47,16 @@ function getMessage(lang, key) {
   return dict[safeLang][key];
 }
 
+function constantTimeEqual(a, b) {
+  if (typeof a !== "string" || typeof b !== "string") return false;
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i += 1) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
 function validate(payload) {
   const required = ["name", "contact", "message", "language"];
   for (const key of required) {
@@ -229,10 +239,53 @@ async function handleInquiry(request, env) {
   return json({ ok: true, message: getMessage(lang, "accepted") }, 200);
 }
 
+async function handleAdminPasswordLogin(request, env) {
+  let payload;
+  try {
+    payload = await request.json();
+  } catch (_) {
+    return json({ ok: false, code: "bad_request", message: "Invalid request format." }, 400);
+  }
+
+  const loginId = String(payload?.id || "").trim();
+  const loginPassword = String(payload?.password || "");
+  if (!loginId || !loginPassword) {
+    return json({ ok: false, code: "invalid_value", message: "ID and password are required." }, 422);
+  }
+
+  if (!env.ADMIN_LOGIN_ID || !env.ADMIN_LOGIN_PASSWORD) {
+    return json(
+      {
+        ok: false,
+        code: "login_config_missing",
+        message: "Password login is not configured yet.",
+      },
+      503
+    );
+  }
+
+  const idOk = constantTimeEqual(loginId, env.ADMIN_LOGIN_ID);
+  const passwordOk = constantTimeEqual(loginPassword, env.ADMIN_LOGIN_PASSWORD);
+  if (!idOk || !passwordOk) {
+    return json({ ok: false, code: "unauthorized", message: "Invalid credentials." }, 401);
+  }
+
+  return json({
+    ok: true,
+    session: {
+      email: env.ADMIN_ALLOWED_EMAIL || "homesteadseoul@gmail.com",
+      allowedEmail: env.ADMIN_ALLOWED_EMAIL || "homesteadseoul@gmail.com",
+      ts: Date.now(),
+      authType: "password",
+    },
+  });
+}
+
 function handlePublicConfig(env) {
   return json({
     googleClientId: env.GOOGLE_CLIENT_ID || "",
     allowedAdminEmail: env.ADMIN_ALLOWED_EMAIL || "homesteadseoul@gmail.com",
+    passwordLoginEnabled: Boolean(env.ADMIN_LOGIN_ID && env.ADMIN_LOGIN_PASSWORD),
   });
 }
 
@@ -246,6 +299,10 @@ export default {
 
     if (pathname === "/api/public-config" && request.method === "GET") {
       return handlePublicConfig(env);
+    }
+
+    if (pathname === "/api/admin-login" && request.method === "POST") {
+      return handleAdminPasswordLogin(request, env);
     }
 
     if (pathname === "/api/inquiry" && request.method === "POST") {
@@ -262,6 +319,7 @@ export default {
           emailTo: Boolean(env.EMAIL_TO),
           emailFrom: Boolean(env.EMAIL_FROM),
           turnstile: Boolean(env.TURNSTILE_SECRET_KEY),
+          passwordLogin: Boolean(env.ADMIN_LOGIN_ID && env.ADMIN_LOGIN_PASSWORD),
         },
       });
     }

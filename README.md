@@ -33,11 +33,12 @@ Admin menu stores values in browser `localStorage` key:
 - `homestead_admin_overrides`
 
 ## Admin access control
-- `admin-login.html` Google sign-in success is required before `admin.html` is accessible.
+- `admin-login.html` supports Google sign-in + ID/PW backup login.
 - Allowed account defaults to `homesteadseoul@gmail.com`
 - Admin login page reads these from Worker env via `/api/public-config`:
   - `GOOGLE_CLIENT_ID`
   - `ADMIN_ALLOWED_EMAIL` (optional; default `homesteadseoul@gmail.com`)
+  - `passwordLoginEnabled` (auto true when `ADMIN_LOGIN_ID` + `ADMIN_LOGIN_PASSWORD` are set)
 - `www` and apex are unified by Worker redirect (`308`) to one canonical host.
 
 ## Cloudflare Workers setup
@@ -47,6 +48,8 @@ Admin menu stores values in browser `localStorage` key:
    - `CANONICAL_HOST` (recommended: `homesteadseoul.com`)
    - `GOOGLE_CLIENT_ID`
    - `ADMIN_ALLOWED_EMAIL` (optional)
+   - `ADMIN_LOGIN_ID` (for backup ID/PW admin login)
+   - `ADMIN_LOGIN_PASSWORD` (for backup ID/PW admin login; set as secret)
    - `RESEND_API_KEY`
    - `EMAIL_TO`
    - `EMAIL_FROM`
@@ -76,6 +79,29 @@ Response JSON:
 {
   "ok": true,
   "message": "..."
+}
+```
+
+`POST /api/admin-login`
+
+Request JSON:
+```json
+{
+  "id": "string",
+  "password": "string"
+}
+```
+
+Response JSON:
+```json
+{
+  "ok": true,
+  "session": {
+    "email": "homesteadseoul@gmail.com",
+    "allowedEmail": "homesteadseoul@gmail.com",
+    "ts": 0,
+    "authType": "password"
+  }
 }
 ```
 
