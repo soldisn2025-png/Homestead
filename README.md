@@ -7,19 +7,16 @@ Single-page bilingual (KO/EN) marketing website with Cloudflare Pages Functions 
 - `styles.css` - mobile-first design system and animations
 - `script.js` - i18n, drawer nav, gallery, contact links, inquiry submit
 - `functions/api/inquiry.js` - Turnstile + Resend + Solapi backend endpoint
-- `admin.html` - local admin menu for easy text/photo/contact edits
+- `admin.html` - admin menu (Google login gate) for easy text/photo/contact edits
 
 ## Required image files
 Put these in `images/`:
-- `Room_main.png`
-- `Hallway_modern.png`
-- `building_outlook.png`
-- `Corridor.png`
-- `lobby.png`
-- `Room_1.png`
-- `Room_2.png`
-- `Room3.png`
-- `Room_4.png`
+- `1.png`
+- `2.png`
+- `3.png`
+- `4.png`
+- `5.png`
+- `6.png`
 
 ## Update contact values
 Edit from `admin.html` (recommended) or directly in `script.js`:
@@ -31,6 +28,12 @@ Edit from `admin.html` (recommended) or directly in `script.js`:
 
 Admin menu stores values in browser `localStorage` key:
 - `homestead_admin_overrides`
+
+## Admin access control
+- `admin.html` allows editing only after Google sign-in with the allowed account:
+  - `homesteadseoul@gmail.com`
+- Set your Google OAuth client id in `admin.html`:
+  - `GOOGLE_CLIENT_ID = "REPLACE_WITH_GOOGLE_CLIENT_ID.apps.googleusercontent.com"`
 
 ## Cloudflare Pages setup
 1. Deploy this folder as a Cloudflare Pages project.

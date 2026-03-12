@@ -1,8 +1,9 @@
 const ADMIN_OVERRIDE_KEY = "homestead_admin_overrides";
+const ALLOWED_ADMIN_EMAIL = "homesteadseoul@gmail.com";
 const FALLBACK_HERO_IMAGE =
-  "https://images.unsplash.com/photo-1538485399081-7c8976de83cc?auto=format&fit=crop&w=1800&q=80";
+  "https://images.unsplash.com/photo-1508668577309-9595be798f5d?auto=format&fit=crop&w=1800&q=80";
 const FALLBACK_ROOM_IMAGE =
-  "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1200&q=80";
+  "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?auto=format&fit=crop&w=1200&q=80";
 
 const DEFAULT_BRANDING = {
   ko: "홈스테이드 서울",
@@ -10,26 +11,23 @@ const DEFAULT_BRANDING = {
 };
 
 const DEFAULT_CONTACT_CONFIG = {
-  phone: "+82-10-0000-0000",
-  email: "you@example.com",
+  phone: "010-3286-8682",
+  email: "Homesteadseoul@gmail.com",
   kakaoUrl: "https://open.kakao.com/o/replace-me",
-  whatsappNumber: "821000000000",
+  whatsappNumber: "821032868682",
   mapEmbed:
     "https://www.google.com/maps?q=%EC%84%9C%EC%9A%B8%20%EB%B0%A9%EB%B0%B0%EB%8F%99%20911-14&output=embed",
 };
 
 const DEFAULT_MEDIA = {
-  heroImage: FALLBACK_HERO_IMAGE,
+  heroImage: "images/6.png",
   gallery: [
-    { src: "images/Room_main.png", captionKey: "captionRoomMain", altKo: "객실", altEn: "Room" },
-    { src: "images/Hallway_modern.png", captionKey: "captionHallwayModern", altKo: "복도", altEn: "Hallway" },
-    { src: "images/building_outlook.png", captionKey: "captionExterior", altKo: "외관", altEn: "Exterior" },
-    { src: "images/Corridor.png", captionKey: "captionCorridor", altKo: "복도", altEn: "Corridor" },
-    { src: "images/lobby.png", captionKey: "captionLobby", altKo: "로비", altEn: "Lobby" },
-    { src: "images/Room_1.png", captionKey: "captionRoom1", altKo: "객실 1", altEn: "Room 1" },
-    { src: "images/Room_2.png", captionKey: "captionRoom2", altKo: "객실 2", altEn: "Room 2" },
-    { src: "images/Room3.png", captionKey: "captionRoom3", altKo: "객실 3", altEn: "Room 3" },
-    { src: "images/Room_4.png", captionKey: "captionRoom4", altKo: "객실 4", altEn: "Room 4" },
+    { src: "images/1.png", captionKey: "captionRoom1", altKo: "객실 1", altEn: "Room 1" },
+    { src: "images/2.png", captionKey: "captionCorridor", altKo: "복도", altEn: "Corridor" },
+    { src: "images/3.png", captionKey: "captionEntryHall", altKo: "입구 복도", altEn: "Entry hallway" },
+    { src: "images/4.png", captionKey: "captionLivingSpace", altKo: "생활공간", altEn: "Living space" },
+    { src: "images/5.png", captionKey: "captionRoom2", altKo: "객실 2", altEn: "Room 2" },
+    { src: "images/6.png", captionKey: "captionExterior", altKo: "건물 외관", altEn: "Building exterior" },
   ],
 };
 
@@ -56,15 +54,12 @@ const BASE_TRANSLATIONS = {
     feature4Desc: "영어 문의 대응 가능. 예산형 서울 숙소를 찾는 해외 방문객에게 적합합니다.",
     galleryEyebrow: "Photo Gallery",
     galleryTitle: "실제 공간 미리 보기",
-    captionRoomMain: "객실",
-    captionHallwayModern: "복도",
-    captionExterior: "외관",
-    captionCorridor: "복도",
-    captionLobby: "로비",
     captionRoom1: "객실 1",
+    captionCorridor: "복도",
+    captionEntryHall: "입구 복도",
+    captionLivingSpace: "생활공간",
     captionRoom2: "객실 2",
-    captionRoom3: "객실 3",
-    captionRoom4: "객실 4",
+    captionExterior: "건물 외관",
     pricingEyebrow: "Pricing",
     pricingTitle: "가격 안내",
     pricingNightlyTitle: "단기 숙박",
@@ -83,15 +78,16 @@ const BASE_TRANSLATIONS = {
     locPoint3: "잠실/명동 등 주요 지역 약 20~35분대 접근",
     locPoint4: "사당역(2·4호선) 환승 접근 용이, 서울 남북 이동 편리",
     locPoint5: "시간대/교통 상황에 따라 소요 시간은 달라질 수 있습니다.",
-    contactEyebrow: "Fast Response",
-    contactTitle: "지금 바로 문의하세요",
-    contactSubtitle: "빠른 답변을 드립니다 · We respond quickly",
+    contactEyebrow: "Contact",
+    contactTitle: "Contact Us",
     contactEmailLabel: "EMAIL",
+    contactEmailHint: "메일 앱 열기",
     contactSmsLabel: "문자/SMS",
+    contactSmsHint: "메시지 앱 열기",
     contactKakaoLabel: "KAKAO TALK",
-    contactKakaoHandle: "오픈채팅 바로가기",
+    contactKakaoHint: "카카오톡 열기",
     contactWhatsappLabel: "WHATSAPP",
-    contactPhoneLabel: "PHONE",
+    contactWhatsappHint: "WhatsApp 열기",
     formName: "이름",
     formContact: "전화번호 또는 이메일",
     formMessage: "문의 내용",
@@ -128,15 +124,12 @@ const BASE_TRANSLATIONS = {
     feature4Desc: "English-friendly inquiry support for budget travelers and long-stay visitors.",
     galleryEyebrow: "Photo Gallery",
     galleryTitle: "Look Inside the Property",
-    captionRoomMain: "Room",
-    captionHallwayModern: "Hallway",
-    captionExterior: "Exterior",
-    captionCorridor: "Corridor",
-    captionLobby: "Lobby",
     captionRoom1: "Room 1",
+    captionCorridor: "Corridor",
+    captionEntryHall: "Entry Hallway",
+    captionLivingSpace: "Living Space",
     captionRoom2: "Room 2",
-    captionRoom3: "Room 3",
-    captionRoom4: "Room 4",
+    captionExterior: "Exterior",
     pricingEyebrow: "Pricing",
     pricingTitle: "Pricing Guide",
     pricingNightlyTitle: "Short Stay",
@@ -155,15 +148,16 @@ const BASE_TRANSLATIONS = {
     locPoint3: "About 20-35 minutes to key areas like Jamsil and Myeongdong",
     locPoint4: "Easy transfer access via Sadang (Line 2 and Line 4)",
     locPoint5: "Travel times are approximate and can vary by time of day.",
-    contactEyebrow: "Fast Response",
-    contactTitle: "Contact Us Now",
-    contactSubtitle: "빠른 답변을 드립니다 · We respond quickly",
+    contactEyebrow: "Contact",
+    contactTitle: "Contact Us",
     contactEmailLabel: "EMAIL",
+    contactEmailHint: "Open mail app",
     contactSmsLabel: "SMS",
+    contactSmsHint: "Open messages",
     contactKakaoLabel: "KAKAO TALK",
-    contactKakaoHandle: "Open chat link",
+    contactKakaoHint: "Open KakaoTalk",
     contactWhatsappLabel: "WHATSAPP",
-    contactPhoneLabel: "PHONE",
+    contactWhatsappHint: "Open WhatsApp",
     formName: "Name",
     formContact: "Phone or Email",
     formMessage: "Message",
@@ -195,13 +189,14 @@ function mergeFlatStrings(target, source) {
 }
 
 function loadAdminOverrides() {
-  let raw;
   try {
-    raw = localStorage.getItem(ADMIN_OVERRIDE_KEY);
+    const raw = localStorage.getItem(ADMIN_OVERRIDE_KEY);
     if (!raw) return;
     const overrides = JSON.parse(raw);
+
     mergeFlatStrings(branding, overrides.branding);
     mergeFlatStrings(contactConfig, overrides.contact);
+
     if (overrides.media && typeof overrides.media === "object") {
       if (typeof overrides.media.heroImage === "string") mediaConfig.heroImage = overrides.media.heroImage;
       if (Array.isArray(overrides.media.gallery)) {
@@ -213,6 +208,7 @@ function loadAdminOverrides() {
         });
       }
     }
+
     if (overrides.translations && typeof overrides.translations === "object") {
       ["ko", "en"].forEach((lang) => {
         if (overrides.translations[lang]) {
@@ -386,33 +382,20 @@ function applyContactLinks() {
   const smsBody = encodeURIComponent("안녕하세요, 홈스테이드 서울 문의드립니다.");
   const waBody = encodeURIComponent("Hello, I'm interested in your room.");
   const cleanPhone = normalizePhoneToDigits(contactConfig.phone);
+  const waPhone = normalizePhoneToDigits(contactConfig.whatsappNumber);
 
   const emailBtn = document.getElementById("btnEmail");
   const smsBtn = document.getElementById("btnSms");
   const kakaoBtn = document.getElementById("btnKakao");
   const waBtn = document.getElementById("btnWhatsapp");
-  const phoneBtn = document.getElementById("btnPhone");
 
   if (emailBtn) emailBtn.href = `mailto:${contactConfig.email}`;
   if (smsBtn) smsBtn.href = `sms:${cleanPhone}?body=${smsBody}`;
   if (kakaoBtn) kakaoBtn.href = contactConfig.kakaoUrl;
-  if (waBtn) waBtn.href = `https://wa.me/${contactConfig.whatsappNumber}?text=${waBody}`;
-  if (phoneBtn) phoneBtn.href = `tel:${cleanPhone}`;
+  if (waBtn) waBtn.href = `https://wa.me/${waPhone}?text=${waBody}`;
 
   const mapFrame = document.querySelector(".location-wrap iframe");
   if (mapFrame && contactConfig.mapEmbed) mapFrame.src = contactConfig.mapEmbed;
-
-  const textNodes = {
-    emailDisplay: contactConfig.email,
-    smsDisplay: contactConfig.phone,
-    phoneDisplay: contactConfig.phone,
-    whatsappDisplay: `+${contactConfig.whatsappNumber}`,
-  };
-
-  Object.entries(textNodes).forEach(([id, value]) => {
-    const node = document.getElementById(id);
-    if (node) node.textContent = value;
-  });
 }
 
 function setStatus(message, type = "") {
@@ -494,6 +477,11 @@ function bindYear() {
 window.onTurnstileSuccess = function onTurnstileSuccess(token) {
   const tokenInput = document.getElementById("turnstileToken");
   if (tokenInput) tokenInput.value = token;
+};
+
+window.HOMESTEAD_ADMIN_META = {
+  key: ADMIN_OVERRIDE_KEY,
+  allowedEmail: ALLOWED_ADMIN_EMAIL,
 };
 
 function init() {

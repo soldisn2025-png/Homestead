@@ -94,24 +94,6 @@ a {
   gap: 10px;
 }
 
-.admin-link {
-  text-decoration: none;
-  border: 1px solid var(--line);
-  background: #fff9f1;
-  border-radius: 999px;
-  min-height: 42px;
-  padding: 8px 12px;
-  display: inline-flex;
-  align-items: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: #6a4b36;
-}
-
-.admin-link:hover {
-  color: var(--accent);
-}
-
 .lang-switch {
   display: flex;
   border: 1px solid var(--line);
@@ -529,11 +511,6 @@ p {
 .pill-sms { background: var(--accent); color: var(--white); }
 .pill-kakao { background: #fae100; color: #2a2100; }
 .pill-whatsapp { background: #25d366; color: #083d1f; }
-.pill-phone {
-  background: #e8d1be;
-  color: #2d1e13;
-  grid-column: 1 / -1;
-}
 
 .inquiry-form {
   margin-top: 15px;
@@ -608,6 +585,16 @@ p {
 
 .footer-links a {
   color: #845f45;
+}
+
+.footer-admin {
+  opacity: 0.45;
+  font-size: 11px;
+  text-transform: lowercase;
+}
+
+.footer-admin:hover {
+  opacity: 0.8;
 }
 
 .reveal {
@@ -693,10 +680,6 @@ p {
   }
 
   .contact-grid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-
-  .pill-phone {
-    grid-column: auto;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }

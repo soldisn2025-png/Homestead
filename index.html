@@ -33,7 +33,6 @@
       </nav>
 
       <div class="header-actions">
-        <a href="admin.html" class="admin-link" aria-label="Admin">Admin</a>
         <div class="lang-switch" role="group" aria-label="Language switcher">
           <button type="button" data-lang-btn="ko">KO</button>
           <button type="button" data-lang-btn="en">EN</button>
@@ -56,7 +55,7 @@
 
   <main id="top">
     <section class="hero reveal">
-      <img id="heroImage" src="https://images.unsplash.com/photo-1538485399081-7c8976de83cc?auto=format&fit=crop&w=1800&q=80" alt="Seoul city view" class="hero-image">
+      <img id="heroImage" src="images/6.png" alt="Seoul city view" class="hero-image">
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <p class="hero-kicker" data-i18n="heroKicker"></p>
@@ -104,41 +103,29 @@
         <h2 data-i18n="galleryTitle"></h2>
       </div>
       <div class="gallery-grid">
-        <a class="glightbox gallery-item" id="galleryItem0" href="images/Room_main.png" data-gallery="rooms" data-title="객실 | Room">
-          <img id="galleryImg0" src="images/Room_main.png" alt="객실">
-          <span data-i18n="captionRoomMain"></span>
-        </a>
-        <a class="glightbox gallery-item" id="galleryItem1" href="images/Hallway_modern.png" data-gallery="rooms" data-title="복도 | Hallway">
-          <img id="galleryImg1" src="images/Hallway_modern.png" alt="복도">
-          <span data-i18n="captionHallwayModern"></span>
-        </a>
-        <a class="glightbox gallery-item" id="galleryItem2" href="images/building_outlook.png" data-gallery="rooms" data-title="외관 | Exterior">
-          <img id="galleryImg2" src="images/building_outlook.png" alt="외관">
-          <span data-i18n="captionExterior"></span>
-        </a>
-        <a class="glightbox gallery-item" id="galleryItem3" href="images/Corridor.png" data-gallery="rooms" data-title="복도 | Corridor">
-          <img id="galleryImg3" src="images/Corridor.png" alt="복도">
-          <span data-i18n="captionCorridor"></span>
-        </a>
-        <a class="glightbox gallery-item" id="galleryItem4" href="images/lobby.png" data-gallery="rooms" data-title="로비 | Lobby">
-          <img id="galleryImg4" src="images/lobby.png" alt="로비">
-          <span data-i18n="captionLobby"></span>
-        </a>
-        <a class="glightbox gallery-item" id="galleryItem5" href="images/Room_1.png" data-gallery="rooms" data-title="객실 1 | Room 1">
-          <img id="galleryImg5" src="images/Room_1.png" alt="객실 1">
+        <a class="glightbox gallery-item" id="galleryItem0" href="images/1.png" data-gallery="rooms" data-title="객실 1 | Room 1">
+          <img id="galleryImg0" src="images/1.png" alt="객실 1">
           <span data-i18n="captionRoom1"></span>
         </a>
-        <a class="glightbox gallery-item" id="galleryItem6" href="images/Room_2.png" data-gallery="rooms" data-title="객실 2 | Room 2">
-          <img id="galleryImg6" src="images/Room_2.png" alt="객실 2">
+        <a class="glightbox gallery-item" id="galleryItem1" href="images/2.png" data-gallery="rooms" data-title="복도 | Corridor">
+          <img id="galleryImg1" src="images/2.png" alt="복도">
+          <span data-i18n="captionCorridor"></span>
+        </a>
+        <a class="glightbox gallery-item" id="galleryItem2" href="images/3.png" data-gallery="rooms" data-title="입구 복도 | Entry Hallway">
+          <img id="galleryImg2" src="images/3.png" alt="입구 복도">
+          <span data-i18n="captionEntryHall"></span>
+        </a>
+        <a class="glightbox gallery-item" id="galleryItem3" href="images/4.png" data-gallery="rooms" data-title="생활공간 | Living Space">
+          <img id="galleryImg3" src="images/4.png" alt="생활공간">
+          <span data-i18n="captionLivingSpace"></span>
+        </a>
+        <a class="glightbox gallery-item" id="galleryItem4" href="images/5.png" data-gallery="rooms" data-title="객실 2 | Room 2">
+          <img id="galleryImg4" src="images/5.png" alt="객실 2">
           <span data-i18n="captionRoom2"></span>
         </a>
-        <a class="glightbox gallery-item" id="galleryItem7" href="images/Room3.png" data-gallery="rooms" data-title="객실 3 | Room 3">
-          <img id="galleryImg7" src="images/Room3.png" alt="객실 3">
-          <span data-i18n="captionRoom3"></span>
-        </a>
-        <a class="glightbox gallery-item" id="galleryItem8" href="images/Room_4.png" data-gallery="rooms" data-title="객실 4 | Room 4">
-          <img id="galleryImg8" src="images/Room_4.png" alt="객실 4">
-          <span data-i18n="captionRoom4"></span>
+        <a class="glightbox gallery-item" id="galleryItem5" href="images/6.png" data-gallery="rooms" data-title="건물 외관 | Exterior">
+          <img id="galleryImg5" src="images/6.png" alt="건물 외관">
+          <span data-i18n="captionExterior"></span>
         </a>
       </div>
     </section>
@@ -192,7 +179,6 @@
       <div class="section-head">
         <p class="eyebrow" data-i18n="contactEyebrow"></p>
         <h2 data-i18n="contactTitle"></h2>
-        <p data-i18n="contactSubtitle"></p>
       </div>
 
       <div class="contact-grid">
@@ -200,35 +186,28 @@
           <span class="pill-icon">📧</span>
           <span>
             <strong data-i18n="contactEmailLabel"></strong>
-            <small id="emailDisplay">you@example.com</small>
+            <small data-i18n="contactEmailHint"></small>
           </span>
         </a>
         <a id="btnSms" class="contact-pill pill-sms" href="#">
           <span class="pill-icon">📱</span>
           <span>
             <strong data-i18n="contactSmsLabel"></strong>
-            <small id="smsDisplay">+82-10-0000-0000</small>
+            <small data-i18n="contactSmsHint"></small>
           </span>
         </a>
         <a id="btnKakao" class="contact-pill pill-kakao" href="#" target="_blank" rel="noopener noreferrer">
           <span class="pill-icon">💬</span>
           <span>
             <strong data-i18n="contactKakaoLabel"></strong>
-            <small data-i18n="contactKakaoHandle"></small>
+            <small data-i18n="contactKakaoHint"></small>
           </span>
         </a>
         <a id="btnWhatsapp" class="contact-pill pill-whatsapp" href="#" target="_blank" rel="noopener noreferrer">
           <span class="pill-icon">💬</span>
           <span>
             <strong data-i18n="contactWhatsappLabel"></strong>
-            <small id="whatsappDisplay">WhatsApp</small>
-          </span>
-        </a>
-        <a id="btnPhone" class="contact-pill pill-phone" href="#">
-          <span class="pill-icon">📞</span>
-          <span>
-            <strong data-i18n="contactPhoneLabel"></strong>
-            <small id="phoneDisplay">+82-10-0000-0000</small>
+            <small data-i18n="contactWhatsappHint"></small>
           </span>
         </a>
       </div>
@@ -264,7 +243,7 @@
     <div class="footer-links">
       <a href="#inquiry" data-i18n="footerInquiry"></a>
       <a href="#location" data-i18n="footerLocation"></a>
-      <a href="admin.html">Admin</a>
+      <a class="footer-admin" href="admin.html">admin</a>
     </div>
     <small>© <span id="year"></span> <span id="footerBrand">Homestead Seoul</span></small>
   </footer>

@@ -11,6 +11,8 @@
       --line: #dfd2c4;
       --ink: #2c2c2c;
       --accent: #c9906a;
+      --danger: #b94b4b;
+      --ok: #216a3d;
     }
     * { box-sizing: border-box; }
     body {
@@ -27,20 +29,30 @@
     }
     h1 { margin: 0 0 8px; }
     .help {
-      margin: 0 0 18px;
+      margin: 0 0 16px;
       color: #705a46;
       font-size: 14px;
     }
-    .card {
+    .auth-box, .card {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
       padding: 14px;
       margin-bottom: 12px;
     }
-    .card h2 {
+    .auth-box h2, .card h2 {
       margin: 0 0 10px;
       font-size: 18px;
+    }
+    .auth-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+    .who {
+      font-size: 14px;
+      color: #5f4b3a;
     }
     .grid {
       display: grid;
@@ -87,178 +99,190 @@
     .reset { background: #2c2c2c; color: #fff; }
     .download { background: #efe2d5; color: #4b3322; }
     .link-btn { background: #f8eee4; color: #4b3322; border: 1px solid #dbcab8; }
+    .ghost { background: transparent; border: 1px solid #d9c8b6; color: #5a4736; }
     .status {
       min-height: 22px;
       margin-top: 10px;
       font-size: 14px;
       font-weight: 700;
-      color: #1e6b3b;
     }
+    .status.ok { color: var(--ok); }
+    .status.err { color: var(--danger); }
+    .locked {
+      opacity: 0.45;
+      pointer-events: none;
+      filter: grayscale(12%);
+    }
+    .hidden { display: none !important; }
   </style>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <main class="wrap">
     <h1>Homestead Seoul Admin</h1>
     <p class="help">
-      이 페이지는 같은 브라우저의 로컬 저장소에만 저장됩니다. 다른 기기/브라우저에는 자동 동기화되지 않습니다.
+      이 페이지는 Google 로그인 인증 후 <strong>homesteadseoul@gmail.com</strong> 계정만 수정 가능합니다.
+      저장 데이터는 브라우저 localStorage에 기록됩니다.
     </p>
 
-    <section class="card">
-      <h2>브랜딩</h2>
-      <div class="grid two">
-        <label>한글 이름
-          <input id="brandKo" type="text">
-        </label>
-        <label>영문 이름
-          <input id="brandEn" type="text">
-        </label>
+    <section class="auth-box">
+      <h2>관리자 인증</h2>
+      <div class="auth-row">
+        <div id="googleBtn"></div>
+        <button id="logoutBtn" type="button" class="ghost hidden">로그아웃</button>
+        <span id="who" class="who">로그인 필요</span>
       </div>
+      <p id="authStatus" class="status"></p>
     </section>
 
-    <section class="card">
-      <h2>Hero</h2>
-      <div class="grid">
-        <label>Hero 이미지 URL/경로
-          <input id="heroImage" type="text">
-        </label>
-      </div>
-      <div class="grid two">
-        <label>KO Hero 제목
-          <input id="heroTitleKo" type="text">
-        </label>
-        <label>EN Hero 제목
-          <input id="heroTitleEn" type="text">
-        </label>
-      </div>
-      <div class="grid two">
-        <label>KO Hero 부제
-          <textarea id="heroSubtitleKo"></textarea>
-        </label>
-        <label>EN Hero 부제
-          <textarea id="heroSubtitleEn"></textarea>
-        </label>
-      </div>
-    </section>
+    <div id="adminFormWrap" class="locked">
+      <section class="card">
+        <h2>브랜딩</h2>
+        <div class="grid two">
+          <label>한글 이름
+            <input id="brandKo" type="text">
+          </label>
+          <label>영문 이름
+            <input id="brandEn" type="text">
+          </label>
+        </div>
+      </section>
 
-    <section class="card">
-      <h2>갤러리 이미지 경로</h2>
-      <div class="grid">
-        <label>1
-          <input id="gallery0" type="text">
-        </label>
-        <label>2
-          <input id="gallery1" type="text">
-        </label>
-        <label>3
-          <input id="gallery2" type="text">
-        </label>
-        <label>4
-          <input id="gallery3" type="text">
-        </label>
-        <label>5
-          <input id="gallery4" type="text">
-        </label>
-        <label>6
-          <input id="gallery5" type="text">
-        </label>
-        <label>7
-          <input id="gallery6" type="text">
-        </label>
-        <label>8
-          <input id="gallery7" type="text">
-        </label>
-        <label>9
-          <input id="gallery8" type="text">
-        </label>
-      </div>
-    </section>
+      <section class="card">
+        <h2>Hero</h2>
+        <div class="grid">
+          <label>Hero 이미지 URL/경로
+            <input id="heroImage" type="text">
+          </label>
+        </div>
+        <div class="grid two">
+          <label>KO Hero 제목
+            <input id="heroTitleKo" type="text">
+          </label>
+          <label>EN Hero 제목
+            <input id="heroTitleEn" type="text">
+          </label>
+        </div>
+        <div class="grid two">
+          <label>KO Hero 부제
+            <textarea id="heroSubtitleKo"></textarea>
+          </label>
+          <label>EN Hero 부제
+            <textarea id="heroSubtitleEn"></textarea>
+          </label>
+        </div>
+      </section>
 
-    <section class="card">
-      <h2>가격 문구</h2>
-      <div class="grid two">
-        <label>KO 단기 메인
-          <input id="pricingNightlyMainKo" type="text">
-        </label>
-        <label>EN 단기 메인
-          <input id="pricingNightlyMainEn" type="text">
-        </label>
-      </div>
-      <div class="grid two">
-        <label>KO 단기 범위
-          <input id="pricingNightlyRangeKo" type="text">
-        </label>
-        <label>EN 단기 범위
-          <input id="pricingNightlyRangeEn" type="text">
-        </label>
-      </div>
-      <div class="grid two">
-        <label>KO 월세 메인
-          <input id="pricingMonthlyMainKo" type="text">
-        </label>
-        <label>EN 월세 메인
-          <input id="pricingMonthlyMainEn" type="text">
-        </label>
-      </div>
-      <div class="grid two">
-        <label>KO 월세 범위
-          <input id="pricingMonthlyRangeKo" type="text">
-        </label>
-        <label>EN 월세 범위
-          <input id="pricingMonthlyRangeEn" type="text">
-        </label>
-      </div>
-    </section>
+      <section class="card">
+        <h2>갤러리 이미지 경로 (6장)</h2>
+        <div class="grid">
+          <label>1
+            <input id="gallery0" type="text">
+          </label>
+          <label>2
+            <input id="gallery1" type="text">
+          </label>
+          <label>3
+            <input id="gallery2" type="text">
+          </label>
+          <label>4
+            <input id="gallery3" type="text">
+          </label>
+          <label>5
+            <input id="gallery4" type="text">
+          </label>
+          <label>6
+            <input id="gallery5" type="text">
+          </label>
+        </div>
+      </section>
 
-    <section class="card">
-      <h2>연락처</h2>
-      <div class="grid two">
-        <label>전화번호
-          <input id="phone" type="text">
-        </label>
-        <label>이메일
-          <input id="email" type="email">
-        </label>
-      </div>
-      <div class="grid two">
-        <label>Kakao URL
-          <input id="kakaoUrl" type="text">
-        </label>
-        <label>WhatsApp 번호 (국가코드 포함 숫자만)
-          <input id="whatsappNumber" type="text">
-        </label>
-      </div>
-      <div class="grid">
-        <label>Google Map Embed URL
-          <input id="mapEmbed" type="text">
-        </label>
-      </div>
-    </section>
+      <section class="card">
+        <h2>가격 문구</h2>
+        <div class="grid two">
+          <label>KO 단기 메인
+            <input id="pricingNightlyMainKo" type="text">
+          </label>
+          <label>EN 단기 메인
+            <input id="pricingNightlyMainEn" type="text">
+          </label>
+        </div>
+        <div class="grid two">
+          <label>KO 단기 범위
+            <input id="pricingNightlyRangeKo" type="text">
+          </label>
+          <label>EN 단기 범위
+            <input id="pricingNightlyRangeEn" type="text">
+          </label>
+        </div>
+        <div class="grid two">
+          <label>KO 월세 메인
+            <input id="pricingMonthlyMainKo" type="text">
+          </label>
+          <label>EN 월세 메인
+            <input id="pricingMonthlyMainEn" type="text">
+          </label>
+        </div>
+        <div class="grid two">
+          <label>KO 월세 범위
+            <input id="pricingMonthlyRangeKo" type="text">
+          </label>
+          <label>EN 월세 범위
+            <input id="pricingMonthlyRangeEn" type="text">
+          </label>
+        </div>
+      </section>
 
-    <div class="actions">
-      <button class="save" id="saveBtn" type="button">저장</button>
-      <button class="reset" id="resetBtn" type="button">초기화</button>
-      <button class="download" id="downloadBtn" type="button">JSON 다운로드</button>
-      <a class="link-btn" href="index.html" target="_blank" rel="noopener noreferrer">사이트 열기</a>
+      <section class="card">
+        <h2>연락처</h2>
+        <div class="grid two">
+          <label>문자/SMS 번호
+            <input id="phone" type="text">
+          </label>
+          <label>Email
+            <input id="email" type="email">
+          </label>
+        </div>
+        <div class="grid two">
+          <label>Kakao URL
+            <input id="kakaoUrl" type="text">
+          </label>
+          <label>WhatsApp 번호 (국가코드 포함 숫자만)
+            <input id="whatsappNumber" type="text">
+          </label>
+        </div>
+        <div class="grid">
+          <label>Google Map Embed URL
+            <input id="mapEmbed" type="text">
+          </label>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button class="save" id="saveBtn" type="button">저장</button>
+        <button class="reset" id="resetBtn" type="button">초기화</button>
+        <button class="download" id="downloadBtn" type="button">JSON 다운로드</button>
+        <a class="link-btn" href="index.html" target="_blank" rel="noopener noreferrer">사이트 열기</a>
+      </div>
+      <p class="status" id="status"></p>
     </div>
-    <p class="status" id="status"></p>
   </main>
 
   <script>
     const KEY = "homestead_admin_overrides";
+    const ALLOWED_EMAIL = "homesteadseoul@gmail.com";
+    const GOOGLE_CLIENT_ID = "REPLACE_WITH_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
     const defaults = {
       branding: { ko: "홈스테이드 서울", en: "Homestead Seoul" },
       media: {
-        heroImage: "https://images.unsplash.com/photo-1538485399081-7c8976de83cc?auto=format&fit=crop&w=1800&q=80",
+        heroImage: "images/6.png",
         gallery: [
-          { src: "images/Room_main.png" },
-          { src: "images/Hallway_modern.png" },
-          { src: "images/building_outlook.png" },
-          { src: "images/Corridor.png" },
-          { src: "images/lobby.png" },
-          { src: "images/Room_1.png" },
-          { src: "images/Room_2.png" },
-          { src: "images/Room3.png" },
-          { src: "images/Room_4.png" }
+          { src: "images/1.png" },
+          { src: "images/2.png" },
+          { src: "images/3.png" },
+          { src: "images/4.png" },
+          { src: "images/5.png" },
+          { src: "images/6.png" }
         ]
       },
       translations: {
@@ -280,16 +304,31 @@
         }
       },
       contact: {
-        phone: "+82-10-0000-0000",
-        email: "you@example.com",
+        phone: "010-3286-8682",
+        email: "Homesteadseoul@gmail.com",
         kakaoUrl: "https://open.kakao.com/o/replace-me",
-        whatsappNumber: "821000000000",
+        whatsappNumber: "821032868682",
         mapEmbed: "https://www.google.com/maps?q=%EC%84%9C%EC%9A%B8%20%EB%B0%A9%EB%B0%B0%EB%8F%99%20911-14&output=embed"
       }
     };
 
+    let authorized = false;
+    let authorizedEmail = "";
+
     function clone(obj) {
       return JSON.parse(JSON.stringify(obj));
+    }
+
+    function decodeJwtPayload(jwt) {
+      const payload = jwt.split(".")[1];
+      const base64 = payload.replace(/-/g, "+").replace(/_/g, "/");
+      const json = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+          .join("")
+      );
+      return JSON.parse(json);
     }
 
     function readData() {
@@ -328,12 +367,10 @@
       document.getElementById("heroTitleEn").value = data.translations.en.heroTitle;
       document.getElementById("heroSubtitleKo").value = data.translations.ko.heroSubtitle;
       document.getElementById("heroSubtitleEn").value = data.translations.en.heroSubtitle;
-
       data.media.gallery.forEach((item, i) => {
         const input = document.getElementById("gallery" + i);
         if (input) input.value = item.src;
       });
-
       document.getElementById("pricingNightlyMainKo").value = data.translations.ko.pricingNightlyMain;
       document.getElementById("pricingNightlyMainEn").value = data.translations.en.pricingNightlyMain;
       document.getElementById("pricingNightlyRangeKo").value = data.translations.ko.pricingNightlyRange;
@@ -342,7 +379,6 @@
       document.getElementById("pricingMonthlyMainEn").value = data.translations.en.pricingMonthlyMain;
       document.getElementById("pricingMonthlyRangeKo").value = data.translations.ko.pricingMonthlyRange;
       document.getElementById("pricingMonthlyRangeEn").value = data.translations.en.pricingMonthlyRange;
-
       document.getElementById("phone").value = data.contact.phone;
       document.getElementById("email").value = data.contact.email;
       document.getElementById("kakaoUrl").value = data.contact.kakaoUrl;
@@ -358,7 +394,7 @@
         },
         media: {
           heroImage: document.getElementById("heroImage").value.trim(),
-          gallery: Array.from({ length: 9 }, (_, i) => ({
+          gallery: Array.from({ length: 6 }, (_, i) => ({
             src: document.getElementById("gallery" + i).value.trim()
           }))
         },
@@ -390,23 +426,97 @@
       };
     }
 
-    function setStatus(msg) {
-      document.getElementById("status").textContent = msg;
+    function setStatus(msg, cls = "") {
+      const node = document.getElementById("status");
+      node.textContent = msg;
+      node.className = "status " + cls;
+    }
+
+    function setAuthStatus(msg, cls = "") {
+      const node = document.getElementById("authStatus");
+      node.textContent = msg;
+      node.className = "status " + cls;
+    }
+
+    function lockAdminUi(locked) {
+      const wrap = document.getElementById("adminFormWrap");
+      wrap.classList.toggle("locked", locked);
+    }
+
+    function onGoogleCredentialResponse(response) {
+      try {
+        const payload = decodeJwtPayload(response.credential);
+        const email = String(payload.email || "").toLowerCase();
+        const verified = payload.email_verified === true;
+        if (!verified || email !== ALLOWED_EMAIL) {
+          authorized = false;
+          authorizedEmail = "";
+          lockAdminUi(true);
+          document.getElementById("logoutBtn").classList.add("hidden");
+          document.getElementById("who").textContent = "권한 없음";
+          setAuthStatus("허용되지 않은 계정입니다.", "err");
+          return;
+        }
+
+        authorized = true;
+        authorizedEmail = email;
+        lockAdminUi(false);
+        document.getElementById("logoutBtn").classList.remove("hidden");
+        document.getElementById("who").textContent = "로그인: " + email;
+        setAuthStatus("인증 완료. 편집이 활성화되었습니다.", "ok");
+      } catch (_) {
+        authorized = false;
+        authorizedEmail = "";
+        lockAdminUi(true);
+        setAuthStatus("Google 토큰 검증에 실패했습니다.", "err");
+      }
+    }
+
+    function initGoogleAuth() {
+      if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+        setAuthStatus("Google SDK 로딩 실패", "err");
+        return;
+      }
+      if (GOOGLE_CLIENT_ID.includes("REPLACE_WITH_GOOGLE_CLIENT_ID")) {
+        setAuthStatus("GOOGLE_CLIENT_ID를 admin.html에서 설정해 주세요.", "err");
+        return;
+      }
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: onGoogleCredentialResponse,
+        auto_select: false
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById("googleBtn"),
+        { theme: "outline", size: "large", text: "signin_with" }
+      );
     }
 
     document.getElementById("saveBtn").addEventListener("click", () => {
+      if (!authorized || authorizedEmail !== ALLOWED_EMAIL) {
+        setStatus("저장 권한이 없습니다. 관리자 계정으로 로그인해 주세요.", "err");
+        return;
+      }
       const data = getFormData();
       writeData(data);
-      setStatus("저장 완료: 메인 페이지 새로고침 시 반영됩니다.");
+      setStatus("저장 완료: 메인 페이지 새로고침 시 반영됩니다.", "ok");
     });
 
     document.getElementById("resetBtn").addEventListener("click", () => {
+      if (!authorized || authorizedEmail !== ALLOWED_EMAIL) {
+        setStatus("초기화 권한이 없습니다.", "err");
+        return;
+      }
       localStorage.removeItem(KEY);
       fillForm(clone(defaults));
-      setStatus("초기화 완료: 기본값으로 되돌렸습니다.");
+      setStatus("초기화 완료: 기본값으로 되돌렸습니다.", "ok");
     });
 
     document.getElementById("downloadBtn").addEventListener("click", () => {
+      if (!authorized || authorizedEmail !== ALLOWED_EMAIL) {
+        setStatus("다운로드 권한이 없습니다.", "err");
+        return;
+      }
       const data = getFormData();
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
@@ -415,10 +525,23 @@
       a.download = "homestead-admin-overrides.json";
       a.click();
       URL.revokeObjectURL(url);
-      setStatus("JSON 다운로드 완료");
+      setStatus("JSON 다운로드 완료", "ok");
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      authorized = false;
+      authorizedEmail = "";
+      lockAdminUi(true);
+      document.getElementById("logoutBtn").classList.add("hidden");
+      document.getElementById("who").textContent = "로그인 필요";
+      setAuthStatus("로그아웃됨", "ok");
+      if (window.google && window.google.accounts && window.google.accounts.id) {
+        window.google.accounts.id.disableAutoSelect();
+      }
     });
 
     fillForm(readData());
+    window.addEventListener("load", initGoogleAuth);
   </script>
 </body>
 </html>
