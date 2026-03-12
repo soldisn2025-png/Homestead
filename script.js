@@ -434,11 +434,6 @@ async function handleInquirySubmit(event) {
     turnstileToken: String(formData.get("turnstileToken") || "").trim(),
   };
 
-  if (!payload.turnstileToken) {
-    setStatus(t("formNeedCaptcha"), "error");
-    return;
-  }
-
   setStatus(t("formSending"));
 
   try {
@@ -456,7 +451,9 @@ async function handleInquirySubmit(event) {
       setStatus(t("formSuccess"), "success");
       return;
     }
-    throw new Error(result.message || "submit_failed");
+    setStatus(result.message || t("formError"), "error");
+    window.location.href = buildMailtoFallback(payload);
+    return;
   } catch (_) {
     setStatus(t("formError"), "error");
     window.location.href = buildMailtoFallback(payload);

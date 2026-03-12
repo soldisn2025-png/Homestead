@@ -30,7 +30,7 @@ function getMessage(lang, key) {
 }
 
 function validate(payload) {
-  const required = ["name", "contact", "message", "language", "turnstileToken"];
+  const required = ["name", "contact", "message", "language"];
   for (const key of required) {
     if (!payload[key] || typeof payload[key] !== "string") return false;
   }
@@ -42,6 +42,9 @@ function validate(payload) {
 }
 
 async function verifyTurnstile(token, request, env) {
+  if (!env.TURNSTILE_SECRET_KEY) return true;
+  if (!token || typeof token !== "string") return true;
+
   const ip = request.headers.get("CF-Connecting-IP") || "";
   const body = new URLSearchParams();
   body.set("secret", env.TURNSTILE_SECRET_KEY);
