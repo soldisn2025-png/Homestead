@@ -97,7 +97,7 @@ const BASE_TRANSLATIONS = {
     formNeedCaptcha: "보안 확인을 완료해 주세요.",
     formSending: "전송 중입니다...",
     formSuccess: "문의가 접수되었습니다. 빠르게 답변드리겠습니다.",
-    formError: "전송에 실패했습니다. 잠시 후 다시 시도하거나 이메일로 문의해 주세요.",
+    formError: "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.",
     footerAddress: "서울특별시 서초구 방배동 911-14",
     footerInquiry: "문의하기",
     footerLocation: "위치보기",
@@ -167,7 +167,7 @@ const BASE_TRANSLATIONS = {
     formNeedCaptcha: "Please complete the security check.",
     formSending: "Sending...",
     formSuccess: "Inquiry received. We will respond quickly.",
-    formError: "Failed to send inquiry. Please try again or contact us by email.",
+    formError: "Failed to send inquiry. Please try again shortly.",
     footerAddress: "911-14 Bangbae-dong, Seocho-gu, Seoul, Korea",
     footerInquiry: "Inquiry",
     footerLocation: "Location",
@@ -406,22 +406,6 @@ function setStatus(message, type = "") {
   if (type) node.classList.add(type);
 }
 
-function buildMailtoFallback(payload) {
-  const subject = encodeURIComponent(
-    payload.language === "ko" ? `[${branding.ko}] 문의` : `[${branding.en}] Inquiry`
-  );
-  const body = encodeURIComponent(
-    [
-      `Name: ${payload.name}`,
-      `Contact: ${payload.contact}`,
-      `Language: ${payload.language}`,
-      "Message:",
-      payload.message,
-    ].join("\n")
-  );
-  return `mailto:${contactConfig.email}?subject=${subject}&body=${body}`;
-}
-
 async function handleInquirySubmit(event) {
   event.preventDefault();
   const form = event.currentTarget;
@@ -451,12 +435,13 @@ async function handleInquirySubmit(event) {
       setStatus(t("formSuccess"), "success");
       return;
     }
+    if (result && result.detail) {
+      console.warn("Inquiry provider detail:", result.detail);
+    }
     setStatus(result.message || t("formError"), "error");
-    window.location.href = buildMailtoFallback(payload);
     return;
   } catch (_) {
     setStatus(t("formError"), "error");
-    window.location.href = buildMailtoFallback(payload);
   }
 }
 

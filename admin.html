@@ -87,6 +87,33 @@
       font: inherit;
     }
     textarea { min-height: 90px; resize: vertical; }
+    .upload-row {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr;
+      margin-top: 8px;
+    }
+    .upload-row input[type="file"] {
+      border: 1px dashed #ccb9a6;
+      background: #fcf7f2;
+      padding: 8px;
+      min-height: 42px;
+    }
+    .preview {
+      width: 100%;
+      max-width: 220px;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border: 1px solid #ddcebf;
+      border-radius: 8px;
+      background: #f4ece2;
+      display: none;
+    }
+    .tip {
+      margin: 6px 0 0;
+      color: #7e634f;
+      font-size: 12px;
+    }
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -147,6 +174,12 @@
         <label>Hero 이미지 URL/경로
           <input id="heroImage" type="text">
         </label>
+        <div class="upload-row">
+          <label>Hero 이미지 파일 업로드
+            <input id="heroUpload" type="file" accept="image/*">
+          </label>
+          <img id="heroPreview" class="preview" alt="Hero preview">
+        </div>
       </div>
       <div class="grid two">
         <label>KO Hero 제목
@@ -170,12 +203,42 @@
       <h2>갤러리 이미지 경로 (6장)</h2>
       <div class="grid">
         <label>1 <input id="gallery0" type="text"></label>
+        <div class="upload-row">
+          <input id="galleryUpload0" type="file" accept="image/*">
+          <img id="galleryPreview0" class="preview" alt="Gallery 1 preview">
+        </div>
+
         <label>2 <input id="gallery1" type="text"></label>
+        <div class="upload-row">
+          <input id="galleryUpload1" type="file" accept="image/*">
+          <img id="galleryPreview1" class="preview" alt="Gallery 2 preview">
+        </div>
+
         <label>3 <input id="gallery2" type="text"></label>
+        <div class="upload-row">
+          <input id="galleryUpload2" type="file" accept="image/*">
+          <img id="galleryPreview2" class="preview" alt="Gallery 3 preview">
+        </div>
+
         <label>4 <input id="gallery3" type="text"></label>
+        <div class="upload-row">
+          <input id="galleryUpload3" type="file" accept="image/*">
+          <img id="galleryPreview3" class="preview" alt="Gallery 4 preview">
+        </div>
+
         <label>5 <input id="gallery4" type="text"></label>
+        <div class="upload-row">
+          <input id="galleryUpload4" type="file" accept="image/*">
+          <img id="galleryPreview4" class="preview" alt="Gallery 5 preview">
+        </div>
+
         <label>6 <input id="gallery5" type="text"></label>
+        <div class="upload-row">
+          <input id="galleryUpload5" type="file" accept="image/*">
+          <img id="galleryPreview5" class="preview" alt="Gallery 6 preview">
+        </div>
       </div>
+      <p class="tip">업로드한 파일은 현재 브라우저 localStorage에 Data URL로 저장됩니다. 너무 큰 이미지는 저장 실패할 수 있습니다.</p>
     </section>
 
     <section class="card">
@@ -322,17 +385,56 @@
       localStorage.setItem(KEY, JSON.stringify(data, null, 2));
     }
 
+    function setPreview(previewId, value) {
+      const preview = document.getElementById(previewId);
+      if (!preview) return;
+      preview.src = value || "";
+      preview.style.display = value ? "block" : "none";
+    }
+
+    function bindPreviewOnInput(inputId, previewId) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      input.addEventListener("input", () => setPreview(previewId, input.value.trim()));
+    }
+
+    function bindFileToInput(fileInputId, textInputId, previewId) {
+      const fileInput = document.getElementById(fileInputId);
+      const textInput = document.getElementById(textInputId);
+      if (!fileInput || !textInput) return;
+
+      fileInput.addEventListener("change", async () => {
+        const file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataUrl = String(reader.result || "");
+          textInput.value = dataUrl;
+          setPreview(previewId, dataUrl);
+          setStatus("이미지 로드 완료. 저장 버튼을 누르면 반영됩니다.");
+        };
+        reader.onerror = () => {
+          setStatus("이미지 읽기 실패. 다시 시도해 주세요.");
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
     function fillForm(data) {
       document.getElementById("brandKo").value = data.branding.ko;
       document.getElementById("brandEn").value = data.branding.en;
       document.getElementById("heroImage").value = data.media.heroImage;
+      setPreview("heroPreview", data.media.heroImage);
       document.getElementById("heroTitleKo").value = data.translations.ko.heroTitle;
       document.getElementById("heroTitleEn").value = data.translations.en.heroTitle;
       document.getElementById("heroSubtitleKo").value = data.translations.ko.heroSubtitle;
       document.getElementById("heroSubtitleEn").value = data.translations.en.heroSubtitle;
       data.media.gallery.forEach((item, i) => {
         const input = document.getElementById("gallery" + i);
-        if (input) input.value = item.src;
+        if (input) {
+          input.value = item.src;
+          setPreview("galleryPreview" + i, item.src);
+        }
       });
       document.getElementById("pricingNightlyMainKo").value = data.translations.ko.pricingNightlyMain;
       document.getElementById("pricingNightlyMainEn").value = data.translations.en.pricingNightlyMain;
@@ -425,6 +527,12 @@
     if (session) {
       document.getElementById("who").textContent = `인증됨: ${session.email}`;
       fillForm(readData());
+      bindPreviewOnInput("heroImage", "heroPreview");
+      bindFileToInput("heroUpload", "heroImage", "heroPreview");
+      for (let i = 0; i < 6; i += 1) {
+        bindPreviewOnInput("gallery" + i, "galleryPreview" + i);
+        bindFileToInput("galleryUpload" + i, "gallery" + i, "galleryPreview" + i);
+      }
     }
   </script>
 </body>

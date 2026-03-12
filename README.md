@@ -27,6 +27,7 @@ Edit from `admin.html` (recommended) or directly in `script.js`:
 - gallery image paths
 - pricing text
 - contact values (`phone`, `email`, `kakaoUrl`, `whatsappNumber`, `mapEmbed`)
+- You can upload local image files directly in `admin.html` (stored in browser localStorage as Data URL)
 
 Admin menu stores values in browser `localStorage` key:
 - `homestead_admin_overrides`
@@ -79,3 +80,4 @@ Response JSON:
 ## Notes
 - SMS send is non-blocking by design (email success is required for `ok=true`).
 - Pricing is manual seasonal range display in the UI (`script.js` i18n copy).
+- Use `/api/health` to confirm runtime config flags after deployment.

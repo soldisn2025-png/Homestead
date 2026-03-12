@@ -75,7 +75,10 @@ function formatEmailHtml(payload, request) {
 }
 
 async function sendEmail(payload, request, env) {
-  if (!env.RESEND_API_KEY || !env.EMAIL_TO || !env.EMAIL_FROM) return false;
+  if (!env.RESEND_API_KEY || !env.EMAIL_TO || !env.EMAIL_FROM) {
+    return { ok: false, code: "config_missing", detail: "Missing RESEND_API_KEY/EMAIL_TO/EMAIL_FROM" };
+  }
+
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -93,7 +96,23 @@ async function sendEmail(payload, request, env) {
       reply_to: payload.contact.includes("@") ? payload.contact : undefined,
     }),
   });
-  return response.ok;
+
+  let bodyText = "";
+  try {
+    bodyText = await response.text();
+  } catch (_) {
+    bodyText = "";
+  }
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      code: "provider_rejected",
+      detail: bodyText || `HTTP ${response.status}`,
+    };
+  }
+
+  return { ok: true };
 }
 
 async function signHmac256(text, secret) {
@@ -161,9 +180,31 @@ async function handleInquiry(request, env) {
     return json({ ok: false, code: "turnstile_fail", message: getMessage(lang, "turnstile_fail") }, 403);
   }
 
-  const emailOk = await sendEmail(payload, request, env);
-  if (!emailOk) {
-    return json({ ok: false, code: "email_fail", message: getMessage(lang, "email_fail") }, 502);
+  const emailResult = await sendEmail(payload, request, env);
+  if (!emailResult.ok) {
+    if (emailResult.code === "config_missing") {
+      return json(
+        {
+          ok: false,
+          code: "email_config_missing",
+          message:
+            lang === "ko"
+              ? "문의 전송 설정이 아직 완료되지 않았습니다. 잠시 후 다시 시도해 주세요."
+              : "Inquiry mail settings are not fully configured yet. Please try again shortly.",
+        },
+        503
+      );
+    }
+
+    return json(
+      {
+        ok: false,
+        code: "email_provider_error",
+        message: getMessage(lang, "email_fail"),
+        detail: emailResult.detail || "",
+      },
+      502
+    );
   }
 
   await sendSms(payload, env);
@@ -191,7 +232,17 @@ export default {
     }
 
     if (pathname === "/api/health") {
-      return json({ ok: true, service: "homestead-worker" });
+      return json({
+        ok: true,
+        service: "homestead-worker",
+        config: {
+          googleClientId: Boolean(env.GOOGLE_CLIENT_ID),
+          resendApiKey: Boolean(env.RESEND_API_KEY),
+          emailTo: Boolean(env.EMAIL_TO),
+          emailFrom: Boolean(env.EMAIL_FROM),
+          turnstile: Boolean(env.TURNSTILE_SECRET_KEY),
+        },
+      });
     }
 
     return env.ASSETS.fetch(request);
