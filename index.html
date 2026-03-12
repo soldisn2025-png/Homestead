@@ -10,6 +10,13 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ko_KR">
   <meta name="twitter:card" content="summary_large_image">
+  <script>
+    (function () {
+      if (location.hostname.toLowerCase() === "www.homesteadseoul.com") {
+        location.replace("https://homesteadseoul.com" + location.pathname + location.search + location.hash);
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Serif+KR:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -243,7 +250,6 @@
   </main>
 
   <footer class="site-footer">
-    <p data-i18n="footerAddress"></p>
     <div class="footer-links">
       <a href="#inquiry" data-i18n="footerInquiry"></a>
       <a href="#location" data-i18n="footerLocation"></a>

@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login | Homestead Seoul</title>
+  <script>
+    (function () {
+      if (location.hostname.toLowerCase() === "www.homesteadseoul.com") {
+        location.replace("https://homesteadseoul.com" + location.pathname + location.search + location.hash);
+      }
+    })();
+  </script>
   <style>
     :root {
       --bg: #faf6f1;
