@@ -12,658 +12,154 @@
     })();
   </script>
   <style>
-    :root {
-      --bg: #faf6f1;
-      --card: #ffffff;
-      --line: #dfd2c4;
-      --ink: #2c2c2c;
-      --accent: #c9906a;
-      --ok: #216a3d;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Segoe UI", "Noto Sans KR", sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.5;
-    }
-    .wrap {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 20px 16px 60px;
-    }
-    .top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    h1 { margin: 0; }
-    .who {
-      font-size: 13px;
-      color: #6f5a47;
-    }
-    .ghost {
-      border: 1px solid #d9c8b6;
-      background: transparent;
-      color: #5a4736;
-      border-radius: 999px;
-      min-height: 38px;
-      padding: 6px 12px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .help {
-      margin: 10px 0 16px;
-      color: #705a46;
-      font-size: 14px;
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 12px;
-    }
-    .card h2 {
-      margin: 0 0 10px;
-      font-size: 18px;
-    }
-    .grid {
-      display: grid;
-      gap: 10px;
-      grid-template-columns: 1fr;
-    }
-    @media (min-width: 768px) {
-      .grid.two { grid-template-columns: 1fr 1fr; }
-    }
-    label {
-      display: grid;
-      gap: 4px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-    input, textarea {
-      width: 100%;
-      border: 1px solid #c9b9a7;
-      border-radius: 8px;
-      min-height: 42px;
-      padding: 8px 10px;
-      font: inherit;
-    }
-    textarea { min-height: 90px; resize: vertical; }
-    .upload-row {
-      display: grid;
-      gap: 8px;
-      grid-template-columns: 1fr;
-      margin-top: 8px;
-    }
-    .upload-row input[type="file"] {
-      border: 1px dashed #ccb9a6;
-      background: #fcf7f2;
-      padding: 8px;
-      min-height: 42px;
-    }
-    .preview {
-      width: 100%;
-      max-width: 220px;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      border: 1px solid #ddcebf;
-      border-radius: 8px;
-      background: #f4ece2;
-      display: none;
-    }
-    .tip {
-      margin: 6px 0 0;
-      color: #7e634f;
-      font-size: 12px;
-    }
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-    button, .link-btn {
-      border: 0;
-      border-radius: 999px;
-      min-height: 44px;
-      padding: 10px 16px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .save { background: var(--accent); color: #fff; }
-    .reset { background: #2c2c2c; color: #fff; }
-    .download { background: #efe2d5; color: #4b3322; }
-    .link-btn { background: #f8eee4; color: #4b3322; border: 1px solid #dbcab8; }
-    .status {
-      min-height: 22px;
-      margin-top: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--ok);
-    }
+    :root { --bg:#faf6f1; --card:#ffffff; --line:#dfd2c4; --ink:#2c2c2c; --muted:#6f5a47; --accent:#c9906a; --ok:#216a3d; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:"Segoe UI","Noto Sans KR",sans-serif; background:var(--bg); color:var(--ink); line-height:1.5; }
+    .wrap { max-width:1100px; margin:0 auto; padding:20px 16px 60px; }
+    .top-row,.actions,.section-row { display:flex; gap:10px; flex-wrap:wrap; }
+    .top-row { justify-content:space-between; align-items:center; }
+    h1,h2,h3 { margin:0; }
+    .who,.help,.tip { color:var(--muted); }
+    .help,.tip { font-size:14px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:12px; }
+    .grid { display:grid; gap:10px; grid-template-columns:1fr; }
+    .grid.two { grid-template-columns:1fr; }
+    .grid.three { grid-template-columns:1fr; }
+    @media (min-width:780px) { .grid.two { grid-template-columns:repeat(2,minmax(0,1fr)); } .grid.three { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    label { display:grid; gap:4px; font-size:13px; font-weight:700; }
+    input,textarea { width:100%; border:1px solid #ccb9a6; border-radius:10px; min-height:42px; padding:8px 10px; font:inherit; background:#fff; }
+    textarea { min-height:140px; resize:vertical; }
+    .json-editor { min-height:520px; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:12px; line-height:1.5; }
+    .upload-block { display:grid; gap:8px; padding:12px; border:1px dashed #d8c6b4; border-radius:12px; background:#fcf7f2; }
+    .upload-block input[type="file"] { padding:8px; border:1px dashed #ccb9a6; background:#fff; }
+    .preview { width:100%; aspect-ratio:4/3; border-radius:12px; border:1px solid #ddcebf; object-fit:cover; background:#f4ece2; display:none; }
+    button,.link-btn { border:0; border-radius:999px; min-height:44px; padding:10px 16px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; }
+    .ghost { background:transparent; border:1px solid #d9c8b6; color:#5a4736; }
+    .save { background:var(--accent); color:#fff; }
+    .reset { background:#2c2c2c; color:#fff; }
+    .download { background:#efe2d5; color:#4b3322; }
+    .link-btn { background:#f8eee4; color:#4b3322; border:1px solid #dbcab8; }
+    .status { min-height:22px; margin-top:10px; font-size:14px; font-weight:700; color:var(--ok); }
+    .slot-label { font-size:12px; font-weight:800; color:#705a46; text-transform:uppercase; letter-spacing:.05em; }
   </style>
 </head>
 <body>
   <main class="wrap">
     <div class="top-row">
-      <h1>Homestead Seoul Admin</h1>
+      <div>
+        <h1>Homestead Seoul Admin</h1>
+        <p class="who" id="who"></p>
+      </div>
       <button id="logoutBtn" type="button" class="ghost">로그아웃</button>
     </div>
-    <p class="who" id="who"></p>
+
     <p class="help">
-      인증된 관리자 세션에서만 접근 가능합니다. 저장 데이터는 브라우저 localStorage에 기록됩니다.
-      <br>`www` 접속은 대표 도메인으로 자동 이동되므로, 하나의 버전만 관리됩니다.
+      빠른 수정 필드는 자주 바꾸는 사진/연락처용입니다.
+      나머지 모든 문구, FAQ, 섹션 순서, 캡션, 방 정보는 아래의 JSON 편집기에서 수정할 수 있습니다.
     </p>
 
     <section class="card">
-      <h2>브랜딩</h2>
-      <div class="grid two">
-        <label>한글 이름
-          <input id="brandKo" type="text">
-        </label>
-        <label>영문 이름
-          <input id="brandEn" type="text">
-        </label>
+      <h2>브랜딩 / 연락처</h2>
+      <div class="grid two" style="margin-top:10px">
+        <label>한글 브랜드명<input id="brandKo" type="text"></label>
+        <label>영문 브랜드명<input id="brandEn" type="text"></label>
+        <label>한글 서브타이틀<input id="subtitleKo" type="text"></label>
+        <label>영문 서브타이틀<input id="subtitleEn" type="text"></label>
+        <label>전화번호<input id="phone" type="text"></label>
+        <label>이메일<input id="email" type="email"></label>
+        <label>카카오 URL<input id="kakaoUrl" type="text"></label>
+        <label>WhatsApp 번호<input id="whatsappNumber" type="text"></label>
+        <label>네이버 URL<input id="naverUrl" type="text"></label>
+        <label>Google Map Embed URL<input id="mapEmbed" type="text"></label>
       </div>
     </section>
 
     <section class="card">
-      <h2>Hero</h2>
-      <div class="grid">
-        <label>Hero 이미지 1 URL/경로
-          <input id="heroImage0" type="text">
-        </label>
-        <div class="upload-row">
-          <label>Hero 이미지 1 파일 업로드
-            <input id="heroUpload0" type="file" accept="image/*">
-          </label>
-          <img id="heroPreview0" class="preview" alt="Hero 1 preview">
-        </div>
-
-        <label>Hero 이미지 2 URL/경로
-          <input id="heroImage1" type="text">
-        </label>
-        <div class="upload-row">
-          <label>Hero 이미지 2 파일 업로드
-            <input id="heroUpload1" type="file" accept="image/*">
-          </label>
-          <img id="heroPreview1" class="preview" alt="Hero 2 preview">
-        </div>
-
-        <label>Hero 이미지 3 URL/경로
-          <input id="heroImage2" type="text">
-        </label>
-        <div class="upload-row">
-          <label>Hero 이미지 3 파일 업로드
-            <input id="heroUpload2" type="file" accept="image/*">
-          </label>
-          <img id="heroPreview2" class="preview" alt="Hero 3 preview">
-        </div>
-      </div>
-      <div class="grid two">
-        <label>KO Hero 제목
-          <input id="heroTitleKo" type="text">
-        </label>
-        <label>EN Hero 제목
-          <input id="heroTitleEn" type="text">
-        </label>
-      </div>
-      <div class="grid two">
-        <label>KO Hero 부제
-          <textarea id="heroSubtitleKo"></textarea>
-        </label>
-        <label>EN Hero 부제
-          <textarea id="heroSubtitleEn"></textarea>
-        </label>
-      </div>
+      <h2>Hero 캐러셀 이미지</h2>
+      <div class="grid three" id="heroSlots" style="margin-top:10px"></div>
     </section>
 
     <section class="card">
-      <h2>갤러리 이미지 경로 (6장)</h2>
-      <div class="grid">
-        <label>1 <input id="gallery0" type="text"></label>
-        <div class="upload-row">
-          <input id="galleryUpload0" type="file" accept="image/*">
-          <img id="galleryPreview0" class="preview" alt="Gallery 1 preview">
-        </div>
-
-        <label>2 <input id="gallery1" type="text"></label>
-        <div class="upload-row">
-          <input id="galleryUpload1" type="file" accept="image/*">
-          <img id="galleryPreview1" class="preview" alt="Gallery 2 preview">
-        </div>
-
-        <label>3 <input id="gallery2" type="text"></label>
-        <div class="upload-row">
-          <input id="galleryUpload2" type="file" accept="image/*">
-          <img id="galleryPreview2" class="preview" alt="Gallery 3 preview">
-        </div>
-
-        <label>4 <input id="gallery3" type="text"></label>
-        <div class="upload-row">
-          <input id="galleryUpload3" type="file" accept="image/*">
-          <img id="galleryPreview3" class="preview" alt="Gallery 4 preview">
-        </div>
-
-        <label>5 <input id="gallery4" type="text"></label>
-        <div class="upload-row">
-          <input id="galleryUpload4" type="file" accept="image/*">
-          <img id="galleryPreview4" class="preview" alt="Gallery 5 preview">
-        </div>
-
-        <label>6 <input id="gallery5" type="text"></label>
-        <div class="upload-row">
-          <input id="galleryUpload5" type="file" accept="image/*">
-          <img id="galleryPreview5" class="preview" alt="Gallery 6 preview">
-        </div>
-      </div>
-      <p class="tip">업로드한 파일은 현재 브라우저 localStorage에 Data URL로 저장됩니다. 너무 큰 이미지는 저장 실패할 수 있습니다.</p>
+      <h2>S / A / B 갤러리 이미지</h2>
+      <p class="tip">기본 사진은 각 티어별 2장씩 연결됩니다. 캡션과 설명 문구는 아래 JSON에서 수정할 수 있습니다.</p>
+      <div class="grid two" id="gallerySlots" style="margin-top:10px"></div>
     </section>
 
     <section class="card">
-      <h2>가격 문구</h2>
-      <div class="grid two">
-        <label>KO 단기 메인 <input id="pricingNightlyMainKo" type="text"></label>
-        <label>EN 단기 메인 <input id="pricingNightlyMainEn" type="text"></label>
+      <div class="section-row" style="justify-content:space-between;align-items:center">
+        <h2>전체 콘텐츠 JSON</h2>
+        <button class="ghost" id="formatJsonBtn" type="button">JSON 정리</button>
       </div>
-      <div class="grid two">
-        <label>KO 단기 범위 <input id="pricingNightlyRangeKo" type="text"></label>
-        <label>EN 단기 범위 <input id="pricingNightlyRangeEn" type="text"></label>
-      </div>
-      <div class="grid two">
-        <label>KO 월세 메인 <input id="pricingMonthlyMainKo" type="text"></label>
-        <label>EN 월세 메인 <input id="pricingMonthlyMainEn" type="text"></label>
-      </div>
-      <div class="grid two">
-        <label>KO 월세 범위 <input id="pricingMonthlyRangeKo" type="text"></label>
-        <label>EN 월세 범위 <input id="pricingMonthlyRangeEn" type="text"></label>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>연락처</h2>
-      <div class="grid two">
-        <label>문자/SMS 번호 <input id="phone" type="text"></label>
-        <label>Email <input id="email" type="email"></label>
-      </div>
-      <div class="grid two">
-        <label>Kakao URL <input id="kakaoUrl" type="text"></label>
-        <label>WhatsApp 번호 <input id="whatsappNumber" type="text"></label>
-      </div>
-      <div class="grid">
-        <label>Google Map Embed URL <input id="mapEmbed" type="text"></label>
-      </div>
+      <p class="tip">`pages`, `rooms`, `collections`, `media.tierGallery` 안의 텍스트를 바꾸면 사이트 문구 전체를 수정할 수 있습니다.</p>
+      <textarea id="configEditor" class="json-editor" spellcheck="false"></textarea>
     </section>
 
     <div class="actions">
       <button class="save" id="saveBtn" type="button">저장</button>
-      <button class="reset" id="resetBtn" type="button">초기화</button>
+      <button class="reset" id="resetBtn" type="button">기본값 복원</button>
       <button class="download" id="downloadBtn" type="button">JSON 다운로드</button>
       <a class="link-btn" href="index.html" target="_blank" rel="noopener noreferrer">사이트 열기</a>
     </div>
     <p class="status" id="status"></p>
   </main>
 
+  <script src="site-data.js"></script>
   <script>
-    const KEY = "homestead_admin_overrides";
+    const KEY = window.HOMESTEAD_ADMIN_META?.key || "homestead_admin_overrides";
     const SESSION_KEY = "homestead_admin_session";
-    const FALLBACK_ALLOWED_EMAIL = "homesteadseoul@gmail.com";
+    const FALLBACK_ALLOWED_EMAIL = window.HOMESTEAD_ADMIN_META?.allowedEmail || "homesteadseoul@gmail.com";
     const SESSION_MAX_AGE_MS = 1000 * 60 * 60 * 12;
+    const defaults = JSON.parse(JSON.stringify(window.HOMESTEAD_DEFAULT_CONFIG || {}));
+    const heroPaths = ["media.heroImages.0", "media.heroImages.1", "media.heroImages.2"];
+    const galleryPaths = [
+      "media.tierGallery.0.images.0.src",
+      "media.tierGallery.0.images.1.src",
+      "media.tierGallery.1.images.0.src",
+      "media.tierGallery.1.images.1.src",
+      "media.tierGallery.2.images.0.src",
+      "media.tierGallery.2.images.1.src"
+    ];
+    const galleryLabels = ["S 1", "S 2", "A 1", "A 2", "B 1", "B 2"];
 
-    const defaults = {
-      branding: { ko: "홈스테이드 서울", en: "Homestead Seoul" },
-      media: {
-        heroImages: ["images/6.png", "images/3.png", "images/4.png"],
-        gallery: [
-          { src: "images/1.png" },
-          { src: "images/2.png" },
-          { src: "images/3.png" },
-          { src: "images/4.png" },
-          { src: "images/5.png" },
-          { src: "images/6.png" }
-        ]
-      },
-      translations: {
-        ko: {
-          heroTitle: "서울 중심부, 나만의 평안한 공간",
-          heroSubtitle: "출퇴근과 서울 여행을 모두 편하게 만드는 실속형 스테이.",
-          pricingNightlyMain: "₩45,000 / 1박부터",
-          pricingNightlyRange: "평일 보통 ₩45,000~₩60,000, 주말/성수기 변동 가능",
-          pricingMonthlyMain: "₩650,000 / 월부터",
-          pricingMonthlyRange: "객실 타입 및 계약 기간에 따라 상이"
-        },
-        en: {
-          heroTitle: "A Peaceful Space in Central Seoul",
-          heroSubtitle: "Practical stay for both daily commuting and city sightseeing.",
-          pricingNightlyMain: "From KRW 45,000 / night",
-          pricingNightlyRange: "Typical weekday KRW 45,000-60,000, weekend/peak season varies",
-          pricingMonthlyMain: "From KRW 650,000 / month",
-          pricingMonthlyRange: "Final rate depends on room type and contract length"
-        }
-      },
-      contact: {
-        phone: "010-3286-8682",
-        email: "Homesteadseoul@gmail.com",
-        kakaoUrl: "https://open.kakao.com/o/replace-me",
-        whatsappNumber: "821032868682",
-        mapEmbed: "https://www.google.com/maps?q=%EC%84%9C%EC%9A%B8%20%EB%B0%A9%EB%B0%B0%EB%8F%99%20911-14&output=embed"
-      }
-    };
+    function clone(value) { return JSON.parse(JSON.stringify(value || {})); }
+    function isObject(value) { return value && typeof value === "object" && !Array.isArray(value); }
+    function deepMerge(base, override) { if (Array.isArray(override)) return override.map((item) => clone(item)); if (!isObject(override)) return override === undefined ? base : override; const result = isObject(base) ? { ...base } : {}; Object.entries(override).forEach(([key, value]) => { if (Array.isArray(value)) result[key] = value.map((item) => clone(item)); else if (isObject(value)) result[key] = deepMerge(result[key], value); else result[key] = value; }); return result; }
+    function setStatus(msg) { document.getElementById("status").textContent = msg || ""; }
+    function requireSession() { try { const raw = localStorage.getItem(SESSION_KEY); if (!raw) { location.replace("admin-login.html"); return null; } const session = JSON.parse(raw); const email = String(session.email || "").toLowerCase(); const allowedEmail = String(session.allowedEmail || FALLBACK_ALLOWED_EMAIL).toLowerCase(); const ts = Number(session.ts || 0); if (email !== allowedEmail || !ts || Date.now() - ts > SESSION_MAX_AGE_MS) { localStorage.removeItem(SESSION_KEY); location.replace("admin-login.html"); return null; } return session; } catch (_) { localStorage.removeItem(SESSION_KEY); location.replace("admin-login.html"); return null; } }
+    function getValueByPath(target, path) { return path.split(".").reduce((acc, key) => acc?.[key], target); }
+    function setValueByPath(target, path, value) { const keys = path.split("."); let cursor = target; keys.forEach((key, index) => { const nextKey = keys[index + 1]; const isLast = index === keys.length - 1; if (isLast) { cursor[key] = value; return; } if (cursor[key] === undefined) cursor[key] = /^\d+$/.test(nextKey) ? [] : {}; cursor = cursor[key]; }); }
+    function normalizeData(parsed) { return deepMerge(clone(defaults), parsed || {}); }
+    function readData() { try { const raw = localStorage.getItem(KEY); return raw ? normalizeData(JSON.parse(raw)) : clone(defaults); } catch (_) { return clone(defaults); } }
+    async function readServerData() { try { const response = await fetch("/api/site-config", { cache: "no-store" }); if (!response.ok) return null; const result = await response.json(); if (!result || !result.ok || !result.config || typeof result.config !== "object") return null; try { localStorage.setItem(KEY, JSON.stringify(result.config, null, 2)); } catch (_) {} return normalizeData(result.config); } catch (_) { return null; } }
+    async function writeData(data) { let serverSaved = false; try { const response = await fetch("/api/site-config", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ config: data }) }); const result = await response.json().catch(() => null); serverSaved = Boolean(response.ok && result && result.ok); } catch (_) { serverSaved = false; } try { localStorage.setItem(KEY, JSON.stringify(data, null, 2)); return { ok: true, serverSaved }; } catch (err) { return { ok: false, message: err && (err.name === "QuotaExceededError" || err.name === "NS_ERROR_DOM_QUOTA_REACHED") ? "저장 용량 초과: 이미지 크기를 줄여 다시 업로드해 주세요." : "저장 실패: 브라우저 저장소 오류가 발생했습니다." }; } }
+    function resizeImageFile(file, maxWidth = 1600, maxHeight = 1600, quality = 0.84) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => { const img = new Image(); img.onload = () => { const scale = Math.min(maxWidth / img.width, maxHeight / img.height, 1); const canvas = document.createElement("canvas"); canvas.width = Math.round(img.width * scale); canvas.height = Math.round(img.height * scale); const ctx = canvas.getContext("2d"); if (!ctx) { reject(new Error("canvas_unavailable")); return; } ctx.drawImage(img, 0, 0, canvas.width, canvas.height); resolve(canvas.toDataURL("image/jpeg", quality)); }; img.onerror = () => reject(new Error("image_decode_failed")); img.src = String(reader.result || ""); }; reader.onerror = () => reject(new Error("file_read_failed")); reader.readAsDataURL(file); }); }
+    function buildUploadSlot(container, label, inputId, previewId, uploadId) { container.insertAdjacentHTML("beforeend", `<div class="upload-block"><span class="slot-label">${label}</span><input id="${inputId}" type="text"><input id="${uploadId}" type="file" accept="image/*"><img id="${previewId}" class="preview" alt="${label} preview"></div>`); }
+    function setPreview(id, value) { const node = document.getElementById(id); if (!node) return; node.src = value || ""; node.style.display = value ? "block" : "none"; }
+    function fillQuickFields(data) { document.getElementById("brandKo").value = data.branding.ko || ""; document.getElementById("brandEn").value = data.branding.en || ""; document.getElementById("subtitleKo").value = data.branding.subtitleKo || ""; document.getElementById("subtitleEn").value = data.branding.subtitleEn || ""; document.getElementById("phone").value = data.contact.phone || ""; document.getElementById("email").value = data.contact.email || ""; document.getElementById("kakaoUrl").value = data.contact.kakaoUrl || ""; document.getElementById("whatsappNumber").value = data.contact.whatsappNumber || ""; document.getElementById("naverUrl").value = data.contact.naverUrl || ""; document.getElementById("mapEmbed").value = data.contact.mapEmbed || ""; heroPaths.forEach((path, index) => { const value = getValueByPath(data, path) || ""; document.getElementById(`heroInput${index}`).value = value; setPreview(`heroPreview${index}`, value); }); galleryPaths.forEach((path, index) => { const value = getValueByPath(data, path) || ""; document.getElementById(`galleryInput${index}`).value = value; setPreview(`galleryPreview${index}`, value); }); document.getElementById("configEditor").value = JSON.stringify(data, null, 2); }
+    function attachImageFieldEvents(prefix, paths) { paths.forEach((path, index) => { const input = document.getElementById(`${prefix}Input${index}`); const upload = document.getElementById(`${prefix}Upload${index}`); const preview = `${prefix}Preview${index}`; input.addEventListener("input", () => setPreview(preview, input.value.trim())); upload.addEventListener("change", async () => { const file = upload.files && upload.files[0]; if (!file) return; try { const dataUrl = await resizeImageFile(file); input.value = dataUrl; setPreview(preview, dataUrl); setStatus("이미지를 불러왔습니다. 저장하면 반영됩니다."); } catch (_) { setStatus("이미지 처리에 실패했습니다."); } }); }); }
+    function parseEditor() { const raw = document.getElementById("configEditor").value.trim(); if (!raw) return clone(defaults); return normalizeData(JSON.parse(raw)); }
+    function applyQuickFields(data) { data.branding.ko = document.getElementById("brandKo").value.trim(); data.branding.en = document.getElementById("brandEn").value.trim(); data.branding.subtitleKo = document.getElementById("subtitleKo").value.trim(); data.branding.subtitleEn = document.getElementById("subtitleEn").value.trim(); data.contact.phone = document.getElementById("phone").value.trim(); data.contact.email = document.getElementById("email").value.trim(); data.contact.kakaoUrl = document.getElementById("kakaoUrl").value.trim(); data.contact.whatsappNumber = document.getElementById("whatsappNumber").value.trim(); data.contact.naverUrl = document.getElementById("naverUrl").value.trim(); data.contact.mapEmbed = document.getElementById("mapEmbed").value.trim(); heroPaths.forEach((path, index) => setValueByPath(data, path, document.getElementById(`heroInput${index}`).value.trim())); galleryPaths.forEach((path, index) => setValueByPath(data, path, document.getElementById(`galleryInput${index}`).value.trim())); return data; }
 
-    function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
+    document.getElementById("saveBtn").addEventListener("click", async () => { let data; try { data = applyQuickFields(parseEditor()); } catch (err) { setStatus(`JSON 오류: ${err.message}`); return; } document.getElementById("configEditor").value = JSON.stringify(data, null, 2); const result = await writeData(data); if (!result.ok) { setStatus(result.message); return; } setStatus(result.serverSaved ? "저장 완료: 서버와 로컬에 반영되었습니다." : "로컬 저장 완료: 서버 저장은 실패했습니다."); });
+    document.getElementById("resetBtn").addEventListener("click", async () => { const data = clone(defaults); fillQuickFields(data); await writeData(data); setStatus("기본값으로 복원했습니다."); });
+    document.getElementById("downloadBtn").addEventListener("click", () => { let data; try { data = applyQuickFields(parseEditor()); } catch (err) { setStatus(`JSON 오류: ${err.message}`); return; } const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "homestead-site-config.json"; a.click(); URL.revokeObjectURL(url); setStatus("JSON 다운로드 완료"); });
+    document.getElementById("formatJsonBtn").addEventListener("click", () => { try { const data = applyQuickFields(parseEditor()); document.getElementById("configEditor").value = JSON.stringify(data, null, 2); setStatus("JSON 정리 완료"); } catch (err) { setStatus(`JSON 오류: ${err.message}`); } });
+    document.getElementById("logoutBtn").addEventListener("click", () => { localStorage.removeItem(SESSION_KEY); location.replace("admin-login.html"); });
 
-    function requireSession() {
-      try {
-        const raw = localStorage.getItem(SESSION_KEY);
-        if (!raw) {
-          location.replace("admin-login.html");
-          return null;
-        }
-        const session = JSON.parse(raw);
-        const email = String(session.email || "").toLowerCase();
-        const allowedEmail = String(session.allowedEmail || FALLBACK_ALLOWED_EMAIL).toLowerCase();
-        const ts = Number(session.ts || 0);
-        if (email !== allowedEmail || !ts || Date.now() - ts > SESSION_MAX_AGE_MS) {
-          localStorage.removeItem(SESSION_KEY);
-          location.replace("admin-login.html");
-          return null;
-        }
-        return session;
-      } catch (_) {
-        localStorage.removeItem(SESSION_KEY);
-        location.replace("admin-login.html");
-        return null;
-      }
-    }
-
-    function normalizeData(parsed) {
-      return {
-        branding: { ...defaults.branding, ...(parsed?.branding || {}) },
-        media: {
-          heroImages: defaults.media.heroImages.map((item, i) => {
-            if (typeof parsed?.media?.heroImages?.[i] === "string" && parsed.media.heroImages[i].trim()) {
-              return parsed.media.heroImages[i].trim();
-            }
-            if (i === 0 && typeof parsed?.media?.heroImage === "string" && parsed.media.heroImage.trim()) {
-              return parsed.media.heroImage.trim();
-            }
-            return item;
-          }),
-          gallery: defaults.media.gallery.map((item, i) => ({
-            src: parsed?.media?.gallery?.[i]?.src || item.src
-          }))
-        },
-        translations: {
-          ko: { ...defaults.translations.ko, ...(parsed?.translations?.ko || {}) },
-          en: { ...defaults.translations.en, ...(parsed?.translations?.en || {}) }
-        },
-        contact: { ...defaults.contact, ...(parsed?.contact || {}) }
-      };
-    }
-
-    function readData() {
-      try {
-        const raw = localStorage.getItem(KEY);
-        if (!raw) return clone(defaults);
-        const parsed = JSON.parse(raw);
-        return normalizeData(parsed);
-      } catch (_) {
-        return clone(defaults);
-      }
-    }
-
-    async function readServerData() {
-      try {
-        const response = await fetch("/api/site-config", { cache: "no-store" });
-        if (!response.ok) return null;
-        const result = await response.json();
-        if (!result || !result.ok || !result.config || typeof result.config !== "object") return null;
-        try {
-          localStorage.setItem(KEY, JSON.stringify(result.config, null, 2));
-        } catch (_) {
-          // Ignore local cache failures.
-        }
-        return normalizeData(result.config);
-      } catch (_) {
-        return null;
-      }
-    }
-
-    async function writeData(data) {
-      let serverSaved = false;
-      try {
-        const response = await fetch("/api/site-config", {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ config: data }),
-        });
-        const result = await response.json().catch(() => null);
-        serverSaved = Boolean(response.ok && result && result.ok);
-      } catch (_) {
-        serverSaved = false;
-      }
-
-      try {
-        localStorage.setItem(KEY, JSON.stringify(data, null, 2));
-        return { ok: true, serverSaved };
-      } catch (err) {
-        return {
-          ok: false,
-          message:
-            err && (err.name === "QuotaExceededError" || err.name === "NS_ERROR_DOM_QUOTA_REACHED")
-              ? "저장 용량 초과: 이미지 크기를 줄여 다시 업로드해 주세요."
-              : "저장 실패: 브라우저 저장소 오류가 발생했습니다.",
-        };
-      }
-    }
-
-    function resizeImageFile(file, maxWidth = 1600, maxHeight = 1600, quality = 0.82) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const img = new Image();
-          img.onload = () => {
-            const scale = Math.min(maxWidth / img.width, maxHeight / img.height, 1);
-            const targetW = Math.round(img.width * scale);
-            const targetH = Math.round(img.height * scale);
-            const canvas = document.createElement("canvas");
-            canvas.width = targetW;
-            canvas.height = targetH;
-            const ctx = canvas.getContext("2d");
-            if (!ctx) {
-              reject(new Error("canvas_unavailable"));
-              return;
-            }
-            ctx.drawImage(img, 0, 0, targetW, targetH);
-            resolve(canvas.toDataURL("image/jpeg", quality));
-          };
-          img.onerror = () => reject(new Error("image_decode_failed"));
-          img.src = String(reader.result || "");
-        };
-        reader.onerror = () => reject(new Error("file_read_failed"));
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function setPreview(previewId, value) {
-      const preview = document.getElementById(previewId);
-      if (!preview) return;
-      preview.src = value || "";
-      preview.style.display = value ? "block" : "none";
-    }
-
-    function bindPreviewOnInput(inputId, previewId) {
-      const input = document.getElementById(inputId);
-      if (!input) return;
-      input.addEventListener("input", () => setPreview(previewId, input.value.trim()));
-    }
-
-    function bindFileToInput(fileInputId, textInputId, previewId) {
-      const fileInput = document.getElementById(fileInputId);
-      const textInput = document.getElementById(textInputId);
-      if (!fileInput || !textInput) return;
-
-      fileInput.addEventListener("change", async () => {
-        const file = fileInput.files && fileInput.files[0];
-        if (!file) return;
-        try {
-          const dataUrl = await resizeImageFile(file);
-          textInput.value = dataUrl;
-          setPreview(previewId, dataUrl);
-          setStatus("이미지 로드 완료(자동 리사이즈). 저장 버튼을 누르면 반영됩니다.");
-        } catch (_) {
-          setStatus("이미지 읽기 실패. 다시 시도해 주세요.");
-        }
-      });
-    }
-
-    function fillForm(data) {
-      document.getElementById("brandKo").value = data.branding.ko;
-      document.getElementById("brandEn").value = data.branding.en;
-      const heroImages = Array.isArray(data.media.heroImages) ? data.media.heroImages : defaults.media.heroImages;
-      heroImages.forEach((src, i) => {
-        const input = document.getElementById("heroImage" + i);
-        if (!input) return;
-        input.value = src || "";
-        setPreview("heroPreview" + i, src || "");
-      });
-      document.getElementById("heroTitleKo").value = data.translations.ko.heroTitle;
-      document.getElementById("heroTitleEn").value = data.translations.en.heroTitle;
-      document.getElementById("heroSubtitleKo").value = data.translations.ko.heroSubtitle;
-      document.getElementById("heroSubtitleEn").value = data.translations.en.heroSubtitle;
-      data.media.gallery.forEach((item, i) => {
-        const input = document.getElementById("gallery" + i);
-        if (input) {
-          input.value = item.src;
-          setPreview("galleryPreview" + i, item.src);
-        }
-      });
-      document.getElementById("pricingNightlyMainKo").value = data.translations.ko.pricingNightlyMain;
-      document.getElementById("pricingNightlyMainEn").value = data.translations.en.pricingNightlyMain;
-      document.getElementById("pricingNightlyRangeKo").value = data.translations.ko.pricingNightlyRange;
-      document.getElementById("pricingNightlyRangeEn").value = data.translations.en.pricingNightlyRange;
-      document.getElementById("pricingMonthlyMainKo").value = data.translations.ko.pricingMonthlyMain;
-      document.getElementById("pricingMonthlyMainEn").value = data.translations.en.pricingMonthlyMain;
-      document.getElementById("pricingMonthlyRangeKo").value = data.translations.ko.pricingMonthlyRange;
-      document.getElementById("pricingMonthlyRangeEn").value = data.translations.en.pricingMonthlyRange;
-      document.getElementById("phone").value = data.contact.phone;
-      document.getElementById("email").value = data.contact.email;
-      document.getElementById("kakaoUrl").value = data.contact.kakaoUrl;
-      document.getElementById("whatsappNumber").value = data.contact.whatsappNumber;
-      document.getElementById("mapEmbed").value = data.contact.mapEmbed;
-    }
-
-    function getFormData() {
-      return {
-        branding: {
-          ko: document.getElementById("brandKo").value.trim(),
-          en: document.getElementById("brandEn").value.trim()
-        },
-        media: {
-          heroImages: Array.from({ length: 3 }, (_, i) => document.getElementById("heroImage" + i).value.trim()),
-          heroImage: document.getElementById("heroImage0").value.trim(),
-          gallery: Array.from({ length: 6 }, (_, i) => ({
-            src: document.getElementById("gallery" + i).value.trim()
-          }))
-        },
-        translations: {
-          ko: {
-            heroTitle: document.getElementById("heroTitleKo").value.trim(),
-            heroSubtitle: document.getElementById("heroSubtitleKo").value.trim(),
-            pricingNightlyMain: document.getElementById("pricingNightlyMainKo").value.trim(),
-            pricingNightlyRange: document.getElementById("pricingNightlyRangeKo").value.trim(),
-            pricingMonthlyMain: document.getElementById("pricingMonthlyMainKo").value.trim(),
-            pricingMonthlyRange: document.getElementById("pricingMonthlyRangeKo").value.trim()
-          },
-          en: {
-            heroTitle: document.getElementById("heroTitleEn").value.trim(),
-            heroSubtitle: document.getElementById("heroSubtitleEn").value.trim(),
-            pricingNightlyMain: document.getElementById("pricingNightlyMainEn").value.trim(),
-            pricingNightlyRange: document.getElementById("pricingNightlyRangeEn").value.trim(),
-            pricingMonthlyMain: document.getElementById("pricingMonthlyMainEn").value.trim(),
-            pricingMonthlyRange: document.getElementById("pricingMonthlyRangeEn").value.trim()
-          }
-        },
-        contact: {
-          phone: document.getElementById("phone").value.trim(),
-          email: document.getElementById("email").value.trim(),
-          kakaoUrl: document.getElementById("kakaoUrl").value.trim(),
-          whatsappNumber: document.getElementById("whatsappNumber").value.trim(),
-          mapEmbed: document.getElementById("mapEmbed").value.trim()
-        }
-      };
-    }
-
-    function setStatus(msg) {
-      document.getElementById("status").textContent = msg;
-    }
-
-    document.getElementById("saveBtn").addEventListener("click", async () => {
-      const result = await writeData(getFormData());
-      if (!result.ok) {
-        setStatus(result.message);
-        return;
-      }
-      if (result.serverSaved) {
-        setStatus("저장 완료: 모든 기기/브라우저에 반영됩니다.");
-      } else {
-        setStatus("로컬 저장 완료: 서버 저장 실패로 현재 브라우저에만 반영됩니다.");
-      }
-    });
-
-    document.getElementById("resetBtn").addEventListener("click", async () => {
-      localStorage.removeItem(KEY);
-      fillForm(clone(defaults));
-      await writeData(clone(defaults));
-      setStatus("초기화 완료");
-    });
-
-    document.getElementById("downloadBtn").addEventListener("click", () => {
-      const data = getFormData();
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "homestead-admin-overrides.json";
-      a.click();
-      URL.revokeObjectURL(url);
-      setStatus("JSON 다운로드 완료");
-    });
-
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      localStorage.removeItem(SESSION_KEY);
-      location.replace("admin-login.html");
-    });
+    const heroSlots = document.getElementById("heroSlots");
+    ["Hero 1", "Hero 2", "Hero 3"].forEach((label, index) => buildUploadSlot(heroSlots, label, `heroInput${index}`, `heroPreview${index}`, `heroUpload${index}`));
+    const gallerySlots = document.getElementById("gallerySlots");
+    galleryLabels.forEach((label, index) => buildUploadSlot(gallerySlots, label, `galleryInput${index}`, `galleryPreview${index}`, `galleryUpload${index}`));
+    attachImageFieldEvents("hero", heroPaths);
+    attachImageFieldEvents("gallery", galleryPaths);
 
     const session = requireSession();
     if (session) {
       document.getElementById("who").textContent = `인증됨: ${session.email}`;
-      for (let i = 0; i < 3; i += 1) {
-        bindPreviewOnInput("heroImage" + i, "heroPreview" + i);
-        bindFileToInput("heroUpload" + i, "heroImage" + i, "heroPreview" + i);
-      }
-      for (let i = 0; i < 6; i += 1) {
-        bindPreviewOnInput("gallery" + i, "galleryPreview" + i);
-        bindFileToInput("galleryUpload" + i, "gallery" + i, "galleryPreview" + i);
-      }
       (async () => {
         const serverData = await readServerData();
-        if (serverData) {
-          fillForm(serverData);
-          setStatus("서버 설정 로드 완료");
-        } else {
-          fillForm(readData());
-          setStatus("로컬 설정 로드 완료");
-        }
+        fillQuickFields(serverData || readData());
+        setStatus(serverData ? "서버 설정 로드 완료" : "로컬 설정 로드 완료");
       })();
     }
   </script>
