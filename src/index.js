@@ -12,6 +12,10 @@ function cloneConfig(value) {
   return JSON.parse(JSON.stringify(value || {}));
 }
 
+function normalizeEnglishPrice(value) {
+  return typeof value === "string" ? value.replace(/\s*[·�]\s*/g, " / ") : value;
+}
+
 function sanitizeSiteConfig(config) {
   const next = cloneConfig(config);
   if (next.branding) {
@@ -31,6 +35,11 @@ function sanitizeSiteConfig(config) {
       ko.location.points = ko.location.points.filter((point) => point !== "조용한 단독 거주 분위기를 선호하는 사용자에게 적합");
     }
   }
+  if (Array.isArray(next.media?.tierGallery)) {
+    next.media.tierGallery.forEach((group) => {
+      group.priceEn = normalizeEnglishPrice(group.priceEn);
+    });
+  }
 
   const en = next.pages?.en;
   if (en?.hero) {
@@ -42,6 +51,11 @@ function sanitizeSiteConfig(config) {
   if (en?.concept) en.concept.desc = "";
   if (en?.gallery) en.gallery.desc = "";
   if (en?.included) en.included.desc = "";
+  if (en?.pricing && Array.isArray(en.pricing.rows)) {
+    en.pricing.rows.forEach((row) => {
+      row.price = normalizeEnglishPrice(row.price);
+    });
+  }
   if (en?.process) {
     en.process.title = "A clear inquiry and payment process";
     en.process.desc = "";
