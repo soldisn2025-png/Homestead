@@ -1195,6 +1195,10 @@ main {
   color: #1e6f46;
 }
 
+.form-status.info {
+  color: #7b5b2d;
+}
+
 .form-status.error {
   color: #a84646;
 }

@@ -292,7 +292,7 @@
       ko: {
         seo: {
           title: "홈스테이드 서울 | 서울 1인 전용 프라이빗룸",
-          description: "방배역 인근 1인 전용 고시텔. 월 60만원부터, 보증금 1달, 관리비/공과금 없음.",
+          description: "방배역 인근 1인 전용 고시텔. 월 60만원부터, 1개월 보증금 기준, 관리비/공과금 없음.",
           ogTitle: "홈스테이드 서울 | 서울 1인 전용 프라이빗룸",
           ogDescription: "가격, 객실 차이, 위치, 문의 동선을 빠르게 비교할 수 있는 1인 전용 주거형 홈페이지.",
           locale: "ko_KR",
@@ -309,10 +309,9 @@
         hero: {
           kicker: "Bangbae Station · Private room · One person only",
           title: "서울에서 조용하게 혼자 머무는 1인 전용 방",
-          subtitle:
-            "방배역 가까운 1인 전용 프라이빗룸입니다. 월 비용, 보증금, 포함 구성과 사진을 먼저 확인하고 편한 채널로 바로 문의할 수 있게 정리했습니다.",
+          subtitle: "",
           chips: ["1인실만 운영", "전 객실 개인 욕실", "관리비/공과금 없음", "방배역 인접"],
-          notes: ["월 단위 입주 안내", "보증금 1달", "카카오톡·전화·이메일 문의"],
+          notes: [],
           primaryAction: { type: "kakao", label: "입실 문의", fallbackLabel: "입실 문의" },
           secondaryAction: { href: "#gallery", label: "사진 보기" },
           tertiaryAction: { type: "phone", label: "전화 문의" },
@@ -325,12 +324,12 @@
         quickFacts: {
           eyebrow: "Quick Facts",
           title: "결정 전에 먼저 보는 정보만 간단히",
-          desc: "월 비용, 보증금, 관리비/공과금 여부를 빠르게 확인할 수 있게 정리했습니다.",
+          desc: "",
           items: [
             { label: "월 비용", value: "60만원부터", note: "B 타입 기준" },
-            { label: "보증금", value: "1달", note: "월세 1개월 기준" },
-            { label: "관리비", value: "없음", note: "별도 청구 없음" },
-            { label: "공과금", value: "추가 없음", note: "예상 비용 계산이 단순" },
+            { label: "보증금", value: "1달", note: "" },
+            { label: "관리비", value: "없음", note: "" },
+            { label: "공과금", value: "추가 없음", note: "" },
           ],
         },
         collections: {
@@ -355,7 +354,7 @@
         },
         gallery: {
           eyebrow: "Photo Gallery",
-          title: "S · A · B 타입 대표 사진만 빠르게 확인",
+          title: "객실 사진",
           desc: "",
         },
         included: {
@@ -374,14 +373,14 @@
           title: "월 비용과 보증금 구조를 명확하게",
           desc: "한국어 페이지는 총액과 보증금이 먼저 보여야 비교가 쉽습니다.",
           rows: [
-            { tier: "S 타입", rooms: "201 / 301 / 401 / 101 / 102", price: "월 100만원", deposit: "보증금 1달", note: "조용함, 넓이, 선호도가 높은 객실" },
-            { tier: "A 타입", rooms: "212 / 204 / 208 / 209 / 409", price: "월 80만원", deposit: "보증금 1달", note: "실용적인 구조와 균형형 객실" },
-            { tier: "B 타입", rooms: "가용 시 안내", price: "월 60만원부터", deposit: "보증금 1달", note: "예산 우선 사용자를 위한 기본형" },
+            { tier: "S 타입", rooms: "201 / 301 / 401 / 101 / 102", price: "월 100만원", deposit: "1개월분 기준", note: "조용함, 넓이, 선호도가 높은 객실" },
+            { tier: "A 타입", rooms: "212 / 204 / 208 / 209 / 409", price: "월 80만원", deposit: "1개월분 기준", note: "실용적인 구조와 균형형 객실" },
+            { tier: "B 타입", rooms: "가용 시 안내", price: "월 60만원부터", deposit: "1개월분 기준", note: "예산 우선 사용자를 위한 기본형" },
             { tier: "A+ 타입", rooms: "205", price: "개별 안내", deposit: "개별 안내", note: "복도 끝의 조용한 A+ 객실" },
           ],
           sideTitle: "운영 조건",
           sideBody: "한국어 페이지는 비교와 문의가 빨라야 하므로, 꼭 필요한 조건만 짧고 명확하게 보여줍니다.",
-          notes: ["모든 객실은 1인 전용입니다.", "관리비/공과금은 별도로 받지 않습니다.", "보증금은 월세 1개월 기준입니다."],
+          notes: ["모든 객실은 1인 전용입니다.", "관리비/공과금은 별도로 받지 않습니다.", "보증금은 1개월분 기준입니다."],
         },
         location: {
           eyebrow: "Location",
@@ -398,7 +397,7 @@
         },
         faq: {
           eyebrow: "FAQ",
-          title: "문의 전에 많이 보는 질문",
+          title: "자주 하는 질문",
           items: [
             { q: "모든 객실이 1인실인가요?", a: "네. 모든 객실은 1인 전용으로만 운영합니다." },
             { q: "보증금은 얼마인가요?", a: "기본적으로 월세 1개월분 기준으로 안내합니다." },
@@ -411,9 +410,9 @@
           title: "입실 문의",
           message: "카카오톡, 전화, 이메일 중 편한 채널로 문의해 주세요. 희망 입실 시기와 체류 기간을 알려주시면 가능한 호실을 안내해드립니다.",
           channels: [
-            { type: "kakao", label: "카카오톡", hint: "간단한 실시간 상담" },
-            { type: "phone", label: "전화 문의", hint: "즉시 확인이 필요할 때" },
-            { type: "email", label: "이메일", hint: "문서형 문의에 적합" },
+            { type: "kakao", label: "카카오톡", hint: "" },
+            { type: "phone", label: "전화 문의", hint: "" },
+            { type: "email", label: "이메일", hint: "" },
           ],
           form: {
             name: "이름",
@@ -548,15 +547,15 @@
         location: {
           eyebrow: "Location",
           title: "A practical Seoul base near Bangbae Station",
-          desc: "The location matters because solo travelers want subway access, everyday convenience, and a calmer base rather than a party district.",
+          desc: "",
           points: [
             "About 1-2 minutes on foot to Bangbae Station",
             "Useful Line 2 access for Gangnam-side commutes and wider Seoul movement",
             "Easy transfer potential via nearby Sadang routes",
             "A calmer fit for solo travelers who want privacy and routine",
           ],
-          sideTitle: "What the location should communicate",
-          sideBody: "This is not marketed as a nightlife stay. It is positioned as reliable, practical urban living with easy subway access.",
+          sideTitle: "",
+          sideBody: "",
         },
         process: {
           eyebrow: "How Move-In Works",
@@ -584,7 +583,7 @@
         contact: {
           eyebrow: "Contact",
           title: "Ask about availability in the easiest way for you",
-          message: "The English page puts direct inquiry first, because international guests usually need a clear answer on dates, payment, and move-in expectations.",
+          message: "",
           channels: [
             { type: "email", label: "Email", hint: "Best for written details and date requests" },
             { type: "whatsapp", label: "WhatsApp", hint: "Fast for international messaging" },
