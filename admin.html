@@ -6,7 +6,12 @@
   <title>Homestead Seoul Admin</title>
   <script>
     (function () {
-      if (location.hostname.toLowerCase() === "www.homesteadseoul.com") {
+      const host = location.hostname.toLowerCase();
+      if (host.endsWith("github.io")) {
+        location.replace("https://homesteadseoul.com" + location.pathname + location.search + location.hash);
+        return;
+      }
+      if (host === "www.homesteadseoul.com") {
         location.replace("https://homesteadseoul.com" + location.pathname + location.search + location.hash);
       }
     })();
