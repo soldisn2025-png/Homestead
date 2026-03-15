@@ -463,7 +463,7 @@
           subtitle:
             "Homestead Seoul offers furnished private rooms for one person per room, designed for solo travelers who want a calm, practical base in Seoul.",
           chips: ["Solo occupancy only", "Private bathroom", "Furnished essentials", "Subway access"],
-          notes: ["From $19.99/day", "Refundable incidental deposit", "Card payment available"],
+          notes: ["From $19.99/day", "Card payment available"],
           primaryAction: { href: "#contact", label: "Check availability" },
           secondaryAction: { type: "whatsapp", label: "WhatsApp" },
           tertiaryAction: { href: "#gallery", label: "See room photos" },

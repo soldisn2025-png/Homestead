@@ -33,7 +33,12 @@ function sanitizeSiteConfig(config) {
   }
 
   const en = next.pages?.en;
-  if (en?.hero) en.hero.kicker = "Solo traveler stay · Furnished room · Seoul";
+  if (en?.hero) {
+    en.hero.kicker = "Solo traveler stay · Furnished room · Seoul";
+    if (Array.isArray(en.hero.notes)) {
+      en.hero.notes = en.hero.notes.filter((note) => note !== "Refundable incidental deposit");
+    }
+  }
   if (en?.concept) en.concept.desc = "";
   if (en?.gallery) en.gallery.desc = "";
   if (en?.included) en.included.desc = "";
