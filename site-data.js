@@ -308,7 +308,7 @@
         sections: ["hero", "quickFacts", "gallery", "included", "location", "faq", "contact"],
         hero: {
           kicker: "Bangbae Station · Private room · One person only",
-          title: "방배역 도보 2분 혼자 쓰는 풀옵션",
+          title: "방배역 도보 2분<br>혼자 쓰는 풀옵션",
           subtitle: "조용한 1인실 / 전용 욕실 / 관리비 없음 / 즉시 입실",
           chips: [],
           notes: [],

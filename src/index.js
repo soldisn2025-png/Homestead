@@ -16,7 +16,7 @@ function sanitizeSiteConfig(config) {
   const next = cloneConfig(config);
   const ko = next.pages?.ko;
   if (ko?.hero) {
-    ko.hero.title = "방배역 도보 2분 혼자 쓰는 풀옵션";
+    ko.hero.title = "방배역 도보 2분<br>혼자 쓰는 풀옵션";
     if (Array.isArray(ko.hero.chips)) ko.hero.chips = ko.hero.chips.filter((chip) => chip !== "1인실만 운영");
   }
   if (ko?.quickFacts) ko.quickFacts.title = "";
@@ -37,6 +37,49 @@ function sanitizeSiteConfig(config) {
     en.process.desc = "";
   }
   return next;
+}
+
+function getAllowedOrigin(request, env) {
+  const origin = request.headers.get("Origin") || "";
+  if (!origin) return "";
+  try {
+    const originUrl = new URL(origin);
+    const host = originUrl.hostname.toLowerCase();
+    const canonicalHost = (env.CANONICAL_HOST || "homesteadseoul.com").toLowerCase();
+    const alternateHost = canonicalHost.startsWith("www.") ? canonicalHost.replace(/^www\./, "") : `www.${canonicalHost}`;
+    if (host === canonicalHost || host === alternateHost || host.endsWith(".github.io")) return origin;
+  } catch (_) {}
+  return "";
+}
+
+function withCors(response, request, env) {
+  const allowedOrigin = getAllowedOrigin(request, env);
+  if (!allowedOrigin) return response;
+  const headers = new Headers(response.headers);
+  headers.set("Access-Control-Allow-Origin", allowedOrigin);
+  headers.set("Access-Control-Allow-Methods", "GET,POST,PUT,OPTIONS");
+  headers.set("Access-Control-Allow-Headers", "Content-Type");
+  headers.set("Vary", "Origin");
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
+function handleCorsPreflight(request, env) {
+  const allowedOrigin = getAllowedOrigin(request, env);
+  if (!allowedOrigin) return new Response(null, { status: 403 });
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": allowedOrigin,
+      "Access-Control-Allow-Methods": "GET,POST,PUT,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Max-Age": "86400",
+      Vary: "Origin",
+    },
+  });
 }
 
 function getSiteConfigStub(env) {
@@ -428,28 +471,32 @@ export default {
     const url = new URL(request.url);
     const { pathname } = url;
 
+    if (pathname.startsWith("/api/") && request.method === "OPTIONS") {
+      return handleCorsPreflight(request, env);
+    }
+
     if (pathname === "/api/public-config" && request.method === "GET") {
-      return handlePublicConfig(env);
+      return withCors(handlePublicConfig(env), request, env);
     }
 
     if (pathname === "/api/site-config" && request.method === "GET") {
-      return handleGetSiteConfig(env);
+      return withCors(await handleGetSiteConfig(env), request, env);
     }
 
     if (pathname === "/api/site-config" && request.method === "PUT") {
-      return handlePutSiteConfig(request, env);
+      return withCors(await handlePutSiteConfig(request, env), request, env);
     }
 
     if (pathname === "/api/admin-login" && request.method === "POST") {
-      return handleAdminPasswordLogin(request, env);
+      return withCors(await handleAdminPasswordLogin(request, env), request, env);
     }
 
     if (pathname === "/api/inquiry" && request.method === "POST") {
-      return handleInquiry(request, env);
+      return withCors(await handleInquiry(request, env), request, env);
     }
 
     if (pathname === "/api/health") {
-      return json({
+      return withCors(json({
         ok: true,
         service: "homestead-worker",
         config: {
@@ -462,7 +509,7 @@ export default {
           passwordLogin: Boolean(env.ADMIN_LOGIN_ID && env.ADMIN_LOGIN_PASSWORD),
           siteConfigStore: Boolean(env.SITE_CONFIG_DO),
         },
-      });
+      }), request, env);
     }
 
     const assetResponse = await env.ASSETS.fetch(request);
