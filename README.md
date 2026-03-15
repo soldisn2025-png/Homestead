@@ -64,6 +64,9 @@ Cross-device sync:
    - `SMS_FROM` (optional)
    - `TURNSTILE_SECRET_KEY` (optional)
 4. Durable Object migration is included in `wrangler.jsonc`; first deploy creates `SiteConfigStore`.
+5. For live inquiries, `EMAIL_FROM` must be a verified sender on your own domain such as `Homestead Seoul <hello@homesteadseoul.com>`.
+   - Do not leave `onboarding@resend.dev` on the live site unless you intentionally set `ALLOW_RESEND_TEST_SENDER=true` for temporary testing.
+   - If a verified sender is not configured, `/api/inquiry` now returns an error instead of a false success.
 
 ## API contract
 `POST /api/inquiry`
@@ -131,6 +134,7 @@ Response JSON:
 
 ## Notes
 - SMS send is non-blocking by design (email success is required for `ok=true`).
+- `/api/health` includes `verifiedSenderConfigured` so you can confirm that the live sender is no longer using the Resend test domain.
 - Pricing is rendered in the UI (`app.js`) with Korean split-pricing presentation and English all-in presentation.
 - `UX_STRATEGY.md` captures the requested bilingual IA, wireframes, pricing logic, and localization rules.
 - Use `/api/health` to confirm runtime config flags after deployment.

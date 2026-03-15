@@ -116,6 +116,16 @@ function validate(payload) {
   return true;
 }
 
+function extractEmailAddress(value) {
+  const raw = String(value || "").trim();
+  const match = raw.match(/<([^>]+)>/);
+  return (match ? match[1] : raw).trim().toLowerCase();
+}
+
+function usesResendTestSender(sender) {
+  return extractEmailAddress(sender).endsWith("@resend.dev");
+}
+
 async function verifyTurnstile(token, request, env) {
   if (!env.TURNSTILE_SECRET_KEY) return true;
   if (!token || typeof token !== "string") return true;
@@ -154,6 +164,15 @@ async function sendEmail(payload, request, env) {
     return { ok: false, code: "config_missing", detail: "Missing RESEND_API_KEY/EMAIL_TO/EMAIL_FROM" };
   }
 
+  if (usesResendTestSender(env.EMAIL_FROM) && env.ALLOW_RESEND_TEST_SENDER !== "true") {
+    return {
+      ok: false,
+      code: "test_sender_not_allowed",
+      detail:
+        "EMAIL_FROM is using resend.dev test sender. Configure a verified sender like hello@homesteadseoul.com and set ALLOW_RESEND_TEST_SENDER=true only for temporary testing.",
+    };
+  }
+
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -173,21 +192,38 @@ async function sendEmail(payload, request, env) {
   });
 
   let bodyText = "";
+  let responseJson = null;
   try {
     bodyText = await response.text();
   } catch (_) {
     bodyText = "";
+  }
+  try {
+    responseJson = bodyText ? JSON.parse(bodyText) : null;
+  } catch (_) {
+    responseJson = null;
   }
 
   if (!response.ok) {
     return {
       ok: false,
       code: "provider_rejected",
-      detail: bodyText || `HTTP ${response.status}`,
+      detail:
+        (responseJson && (responseJson.message || responseJson.name || responseJson.error)) ||
+        bodyText ||
+        `HTTP ${response.status}`,
     };
   }
 
-  return { ok: true };
+  if (!responseJson || typeof responseJson.id !== "string" || !responseJson.id.trim()) {
+    return {
+      ok: false,
+      code: "provider_invalid_response",
+      detail: bodyText || "Resend accepted the request but did not return an email id.",
+    };
+  }
+
+  return { ok: true, id: responseJson.id.trim() };
 }
 
 async function signHmac256(text, secret) {
@@ -271,6 +307,21 @@ async function handleInquiry(request, env) {
       );
     }
 
+    if (emailResult.code === "test_sender_not_allowed") {
+      return json(
+        {
+          ok: false,
+          code: "email_sender_not_verified",
+          message:
+            lang === "ko"
+              ? "문의 메일 발송 주소가 아직 테스트용으로 설정되어 있습니다. Resend에서 도메인을 인증한 뒤 실제 발신 주소로 바꿔야 합니다."
+              : "Inquiry email is still using a Resend test sender. Verify your domain in Resend and switch EMAIL_FROM to a real sender address.",
+          detail: emailResult.detail || "",
+        },
+        503
+      );
+    }
+
     return json(
       {
         ok: false,
@@ -283,7 +334,7 @@ async function handleInquiry(request, env) {
   }
 
   await sendSms(payload, env);
-  return json({ ok: true, message: getMessage(lang, "accepted") }, 200);
+  return json({ ok: true, message: getMessage(lang, "accepted"), emailId: emailResult.id }, 200);
 }
 
 async function handleAdminPasswordLogin(request, env) {
@@ -373,6 +424,7 @@ export default {
           resendApiKey: Boolean(env.RESEND_API_KEY),
           emailTo: Boolean(env.EMAIL_TO),
           emailFrom: Boolean(env.EMAIL_FROM),
+          verifiedSenderConfigured: Boolean(env.EMAIL_FROM) && !usesResendTestSender(env.EMAIL_FROM),
           turnstile: Boolean(env.TURNSTILE_SECRET_KEY),
           passwordLogin: Boolean(env.ADMIN_LOGIN_ID && env.ADMIN_LOGIN_PASSWORD),
           siteConfigStore: Boolean(env.SITE_CONFIG_DO),

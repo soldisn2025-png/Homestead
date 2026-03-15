@@ -20,7 +20,7 @@
     "GOOGLE_CLIENT_ID": "94453356823-ivv1ku38dlqj5ff2gaik2irs1vl2b6nd.apps.googleusercontent.com",
     "ADMIN_ALLOWED_EMAIL": "homesteadseoul@gmail.com",
     "EMAIL_TO": "homesteadseoul@gmail.com",
-    "EMAIL_FROM": "Homestead Seoul <onboarding@resend.dev>",
+    "EMAIL_FROM": "Homestead Seoul <hello@homesteadseoul.com>",
     "SMS_TO": "821032868682",
     "SMS_FROM": "01032868682"
   },
