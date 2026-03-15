@@ -597,7 +597,7 @@ main {
 }
 
 .hero-cta {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   gap: 10px;
 }
@@ -1564,6 +1564,10 @@ main {
   .hero-grid {
     grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
     min-height: 700px;
+  }
+
+  .hero-cta {
+    display: flex;
   }
 
   .hero-visual {

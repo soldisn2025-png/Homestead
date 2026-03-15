@@ -602,6 +602,7 @@
           mobileCtas: [
             { href: "#contact", label: "Check availability" },
             { type: "whatsapp", label: "WhatsApp" },
+            { type: "phone", label: "Call" },
           ],
         },
         footer: {
