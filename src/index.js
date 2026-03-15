@@ -29,6 +29,7 @@ function sanitizeSiteConfig(config) {
   }
 
   const en = next.pages?.en;
+  if (en?.hero) en.hero.kicker = "Solo traveler stay · Furnished room · Seoul";
   if (en?.concept) en.concept.desc = "";
   if (en?.gallery) en.gallery.desc = "";
   if (en?.included) en.included.desc = "";
