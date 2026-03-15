@@ -38,7 +38,7 @@
           badgeKo: "",
           badgeEn: "",
           priceKo: "월 100만원",
-          priceEn: "$32.99/day · $999/m",
+          priceEn: "$32.99/day · $999/month",
           descKo: "",
           descEn: "",
           images: [
@@ -53,7 +53,7 @@
           badgeKo: "",
           badgeEn: "",
           priceKo: "월 80만원",
-          priceEn: "$26.99/day · $799/m",
+          priceEn: "$26.99/day · $799/month",
           descKo: "",
           descEn: "",
           images: [
@@ -68,7 +68,7 @@
           badgeKo: "",
           badgeEn: "",
           priceKo: "월 60만원부터",
-          priceEn: "$19.99/day · $599/m",
+          priceEn: "$19.99/day · $599/month",
           descKo: "",
           descEn: "",
           images: [
@@ -533,9 +533,9 @@
           title: "Clear monthly pricing for solo stays",
           desc: "The English page uses an all-in monthly view because that is easier for international guests to trust and understand.",
           rows: [
-            { tier: "S type room", rooms: "201 / 301 / 401 / 101 / 102", price: "$32.99/day · $999/m", deposit: "Refundable incidental deposit", note: "The quietest and most spacious room type." },
-            { tier: "A type room", rooms: "212 / 204 / 208 / 209 / 409", price: "$26.99/day · $799/m", deposit: "Refundable incidental deposit", note: "Balanced, practical rooms for everyday long-stay use." },
-            { tier: "B type room", rooms: "When available", price: "$19.99/day · $599/m", deposit: "Refundable incidental deposit", note: "The most accessible private-room option." },
+            { tier: "S type room", rooms: "201 / 301 / 401 / 101 / 102", price: "$32.99/day · $999/month", deposit: "Refundable incidental deposit", note: "The quietest and most spacious room type." },
+            { tier: "A type room", rooms: "212 / 204 / 208 / 209 / 409", price: "$26.99/day · $799/month", deposit: "Refundable incidental deposit", note: "Balanced, practical rooms for everyday long-stay use." },
+            { tier: "B type room", rooms: "When available", price: "$19.99/day · $599/month", deposit: "Refundable incidental deposit", note: "The most accessible private-room option." },
             { tier: "A+ type room", rooms: "205", price: "Quoted individually", deposit: "Refundable incidental deposit", note: "A quieter end-of-hall room between A and S types." },
           ],
           sideTitle: "Stay terms",
