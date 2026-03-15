@@ -16,8 +16,8 @@
     branding: {
       ko: "홈스테이드 서울",
       en: "Homestead Seoul",
-      subtitleKo: "서울의 1인 전용 프라이빗룸",
-      subtitleEn: "Private Room Urban Living",
+      subtitleKo: "서울의 1인 전용 프라이빗룸 · Since 2007",
+      subtitleEn: "Private Room Urban Living · Since 2007",
     },
     contact: {
       phone: "010-3286-8682",
@@ -563,7 +563,7 @@
             { title: "Email, KakaoTalk, or WhatsApp us", copy: "Send your preferred dates, expected stay length, and any room preferences." },
             { title: "We confirm your dates", copy: "We check availability and recommend the room options that fit your timing and budget." },
             { title: "We send a payment link", copy: "A payment link is sent by email or WhatsApp once the room and dates are confirmed." },
-            { title: "Pay by card before move-in", copy: "You pay the refundable incidental deposit and monthly rent by card before move-in." },
+            { title: "Pay before move-in or in cash at check-in", copy: "You can pay the refundable incidental deposit and monthly rent by card before move-in, or pay in cash at check-in if you prefer." },
           ],
         },
         faq: {

@@ -14,6 +14,10 @@ function cloneConfig(value) {
 
 function sanitizeSiteConfig(config) {
   const next = cloneConfig(config);
+  if (next.branding) {
+    next.branding.subtitleKo = "서울의 1인 전용 프라이빗룸 · Since 2007";
+    next.branding.subtitleEn = "Private Room Urban Living · Since 2007";
+  }
   const ko = next.pages?.ko;
   if (ko?.hero) {
     ko.hero.title = "방배역 도보 2분<br>혼자 쓰는 풀옵션";
@@ -36,6 +40,10 @@ function sanitizeSiteConfig(config) {
   if (en?.process) {
     en.process.title = "A clear inquiry and payment process";
     en.process.desc = "";
+    if (Array.isArray(en.process.steps) && en.process.steps[3]) {
+      en.process.steps[3].title = "Pay before move-in or in cash at check-in";
+      en.process.steps[3].copy = "You can pay the refundable incidental deposit and monthly rent by card before move-in, or pay in cash at check-in if you prefer.";
+    }
   }
   if (en?.contact) {
     en.contact.mobileCtas = [
