@@ -308,9 +308,9 @@
         sections: ["hero", "quickFacts", "gallery", "included", "location", "faq", "contact"],
         hero: {
           kicker: "Bangbae Station · Private room · One person only",
-          title: "서울에서 조용하게 혼자 머무는 1인 전용 방",
-          subtitle: "",
-          chips: ["1인실만 운영", "전 객실 개인 욕실", "관리비/공과금 없음", "방배역 인접"],
+          title: "방배역 도보 2분 혼자 쓰는 풀옵션 방",
+          subtitle: "조용한 1인실 / 전용 욕실 / 관리비 없음 / 즉시 입실",
+          chips: [],
           notes: [],
           primaryAction: { type: "kakao", label: "입실 문의", fallbackLabel: "입실 문의" },
           secondaryAction: { href: "#gallery", label: "사진 보기" },
@@ -323,7 +323,7 @@
         },
         quickFacts: {
           eyebrow: "Quick Facts",
-          title: "결정 전에 먼저 보는 정보만 간단히",
+          title: "",
           desc: "",
           items: [
             { label: "월 비용", value: "60만원부터", note: "B 타입 기준" },
@@ -360,7 +360,7 @@
         included: {
           eyebrow: "Included",
           title: "생활에 필요한 기본 구성만 심플하게",
-          desc: "바로 생활을 시작할 때 필요한 기본 항목만 간단히 확인할 수 있게 정리했습니다.",
+          desc: "",
           cards: [
             { title: "개인 욕실", desc: "모든 객실에 개인 욕실이 포함됩니다." },
             { title: "간단 조리 + 전자레인지", desc: "객실 내 또는 운영 기준에 맞는 간단 조리 환경을 이용할 수 있습니다." },
@@ -384,7 +384,7 @@
         },
         location: {
           eyebrow: "Location",
-          title: "방배역 접근성과 이동 편의",
+          title: "",
           desc: "",
           points: [
             "방배역 도보 약 1~2분",
@@ -522,7 +522,7 @@
         included: {
           eyebrow: "Included",
           title: "Simple essentials already set up",
-          desc: "This section stays intentionally simple: what you need to know for everyday solo living, without overwhelming detail.",
+          desc: "",
           cards: [
             { title: "Private bathroom", desc: "Every room includes its own private bathroom." },
             { title: "Kitchenette or simple cooking access", desc: "Cooking access is available according to the room setup and operator guidance." },
@@ -559,8 +559,8 @@
         },
         process: {
           eyebrow: "How Move-In Works",
-          title: "A clear inquiry and payment process for international guests",
-          desc: "The flow is designed to feel simple for foreigners who want to confirm dates and pay remotely before arriving in Seoul.",
+          title: "A clear inquiry and payment process",
+          desc: "",
           steps: [
             { title: "Email, KakaoTalk, or WhatsApp us", copy: "Send your preferred dates, expected stay length, and any room preferences." },
             { title: "We confirm your dates", copy: "We check availability and recommend the room options that fit your timing and budget." },
