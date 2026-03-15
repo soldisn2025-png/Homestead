@@ -600,9 +600,9 @@
             error: "Failed to send inquiry. Please try again shortly.",
           },
           mobileCtas: [
-            { href: "#contact", label: "Check availability" },
             { type: "whatsapp", label: "WhatsApp" },
             { type: "phone", label: "Call" },
+            { type: "email", label: "Email" },
           ],
         },
         footer: {
