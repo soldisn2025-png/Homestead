@@ -36,6 +36,13 @@ function sanitizeSiteConfig(config) {
     en.process.title = "A clear inquiry and payment process";
     en.process.desc = "";
   }
+  if (en?.contact) {
+    en.contact.mobileCtas = [
+      { type: "whatsapp", label: "WhatsApp" },
+      { type: "phone", label: "Call" },
+      { type: "email", label: "Email" },
+    ];
+  }
   return next;
 }
 
