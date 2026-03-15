@@ -11,6 +11,7 @@ let heroSlideIndex = 0;
 function clone(value) { return JSON.parse(JSON.stringify(value || {})); }
 function isObject(value) { return value && typeof value === "object" && !Array.isArray(value); }
 function deepMerge(base, override) { if (Array.isArray(override)) return override.map((item) => clone(item)); if (!isObject(override)) return override === undefined ? base : override; const result = isObject(base) ? { ...base } : {}; Object.entries(override).forEach(([key, value]) => { if (Array.isArray(value)) result[key] = value.map((item) => clone(item)); else if (isObject(value)) result[key] = deepMerge(result[key], value); else result[key] = value; }); return result; }
+function applyContentRevision(config) { const ko = config.pages?.ko; if (ko?.hero) { ko.hero.title = "방배역 도보 2분 혼자 쓰는 풀옵션"; if (Array.isArray(ko.hero.chips)) ko.hero.chips = ko.hero.chips.filter((chip) => chip !== "1인실만 운영"); } if (ko?.quickFacts) ko.quickFacts.title = ""; if (ko?.included) ko.included.desc = ""; if (ko?.location) { ko.location.title = ""; if (Array.isArray(ko.location.points)) ko.location.points = ko.location.points.filter((point) => point !== "조용한 단독 거주 분위기를 선호하는 사용자에게 적합"); } const en = config.pages?.en; if (en?.concept) en.concept.desc = ""; if (en?.gallery) en.gallery.desc = ""; if (en?.included) en.included.desc = ""; if (en?.process) { en.process.title = "A clear inquiry and payment process"; en.process.desc = ""; } return config; }
 function escapeHtml(value) { return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
 function getCurrentCopy() { return siteConfig.pages?.[currentLang] || siteConfig.pages?.ko || {}; }
 function getBrandTitle() { return currentLang === "ko" ? siteConfig.branding.ko : siteConfig.branding.en; }
@@ -67,5 +68,5 @@ function bindYear() { document.getElementById("year").textContent = String(new D
 function loadLocalAdminOverrides() { try { const raw = localStorage.getItem(ADMIN_OVERRIDE_KEY); if (!raw) return; siteConfig = deepMerge(siteConfig, JSON.parse(raw)); } catch (_) {} }
 async function loadServerAdminOverrides() { try { const response = await fetch("/api/site-config", { cache: "no-store" }); if (!response.ok) return false; const result = await response.json(); if (!result || !result.ok || !result.config || typeof result.config !== "object") return false; siteConfig = deepMerge(siteConfig, result.config); return true; } catch (_) { return false; } }
 
-async function init() { const serverLoaded = await loadServerAdminOverrides(); if (!serverLoaded) loadLocalAdminOverrides(); bindStaticChrome(); bindYear(); renderPage(); }
+async function init() { applyContentRevision(siteConfig); const serverLoaded = await loadServerAdminOverrides(); if (!serverLoaded) loadLocalAdminOverrides(); applyContentRevision(siteConfig); bindStaticChrome(); bindYear(); renderPage(); }
 init();

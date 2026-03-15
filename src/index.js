@@ -8,6 +8,37 @@ function json(body, status = 200) {
   });
 }
 
+function cloneConfig(value) {
+  return JSON.parse(JSON.stringify(value || {}));
+}
+
+function sanitizeSiteConfig(config) {
+  const next = cloneConfig(config);
+  const ko = next.pages?.ko;
+  if (ko?.hero) {
+    ko.hero.title = "방배역 도보 2분 혼자 쓰는 풀옵션";
+    if (Array.isArray(ko.hero.chips)) ko.hero.chips = ko.hero.chips.filter((chip) => chip !== "1인실만 운영");
+  }
+  if (ko?.quickFacts) ko.quickFacts.title = "";
+  if (ko?.included) ko.included.desc = "";
+  if (ko?.location) {
+    ko.location.title = "";
+    if (Array.isArray(ko.location.points)) {
+      ko.location.points = ko.location.points.filter((point) => point !== "조용한 단독 거주 분위기를 선호하는 사용자에게 적합");
+    }
+  }
+
+  const en = next.pages?.en;
+  if (en?.concept) en.concept.desc = "";
+  if (en?.gallery) en.gallery.desc = "";
+  if (en?.included) en.included.desc = "";
+  if (en?.process) {
+    en.process.title = "A clear inquiry and payment process";
+    en.process.desc = "";
+  }
+  return next;
+}
+
 function getSiteConfigStub(env) {
   if (!env.SITE_CONFIG_DO) return null;
   const id = env.SITE_CONFIG_DO.idFromName("primary");
@@ -41,7 +72,9 @@ async function handleGetSiteConfig(env) {
     );
   }
   const response = await stub.fetch("https://site-config/get");
-  return new Response(response.body, { status: response.status, headers: response.headers });
+  const result = await response.json().catch(() => null);
+  if (!response.ok || !result || !result.ok) return new Response(JSON.stringify(result || { ok: false }), { status: response.status, headers: response.headers });
+  return json({ ok: true, config: result.config ? sanitizeSiteConfig(result.config) : null }, response.status);
 }
 
 async function handlePutSiteConfig(request, env) {
@@ -60,7 +93,7 @@ async function handlePutSiteConfig(request, env) {
     return json({ ok: false, code: "bad_request", message: "Invalid request format." }, 400);
   }
 
-  const config = payload && typeof payload === "object" && payload.config ? payload.config : payload;
+  const config = payload && typeof payload === "object" && payload.config ? sanitizeSiteConfig(payload.config) : sanitizeSiteConfig(payload);
   if (!config || typeof config !== "object") {
     return json({ ok: false, code: "invalid_value", message: "Invalid config payload." }, 422);
   }
