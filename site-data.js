@@ -308,7 +308,7 @@
         sections: ["hero", "quickFacts", "gallery", "included", "location", "faq", "contact"],
         hero: {
           kicker: "Bangbae Station · Private room · One person only",
-          title: "방배역 도보 2분 혼자 쓰는 풀옵션 방",
+          title: "방배역 도보 2분 혼자 쓰는 풀옵션",
           subtitle: "조용한 1인실 / 전용 욕실 / 관리비 없음 / 즉시 입실",
           chips: [],
           notes: [],
@@ -390,7 +390,6 @@
             "방배역 도보 약 1~2분",
             "강남권 이동이 편한 2호선 접근성",
             "사당역 환승 접근이 쉬워 서울 남북 이동도 무난",
-            "조용한 단독 거주 분위기를 선호하는 사용자에게 적합",
           ],
           sideTitle: "",
           sideBody: "",
@@ -477,8 +476,7 @@
         concept: {
           eyebrow: "About",
           title: "A furnished private-room stay for solo travelers",
-          desc:
-            "The English page explains the stay clearly first, because many international guests want to understand the setup, pricing, and inquiry process before they book.",
+          desc: "",
           cards: [
             {
               title: "One person per room",
@@ -517,7 +515,7 @@
         gallery: {
           eyebrow: "Gallery",
           title: "Room types and pricing at a glance",
-          desc: "Two representative photos per room type, with simple pricing for solo stays.",
+          desc: "",
         },
         included: {
           eyebrow: "Included",
